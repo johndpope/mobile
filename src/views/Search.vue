@@ -37,7 +37,7 @@ export default {
         return false
       }
 
-      this.$http.get(`http://localhost:3000/posts/busca/${event.target.value}`).then(response => {
+      this.$http.get(`http://api.animeai.online/posts/busca/${event.target.value}`).then(response => {
         this.posts = response.body
         this.buscaStatus = `Mostrando ${this.posts.length}`
       }, response => {
@@ -55,7 +55,7 @@ export default {
 <style lang="scss" scoped>
   input {
     margin: 20px 0;
-    width: calc(100% - 20px);
+    width: 100%;
     background-color: rgba(240, 240, 240, 1);
     border: none;
     color: #3E3E3E;

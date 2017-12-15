@@ -32,7 +32,7 @@ export default {
     'ArticlePost': ArticlePost
   },
   created () {
-    this.$http.get('http://localhost:3000/posts/lista').then(response => {
+    this.$http.get('http://api.animeai.online/posts/lista').then(response => {
       this.posts = response.body
     }, response => {
       // code:
