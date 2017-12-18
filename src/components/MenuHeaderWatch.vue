@@ -1,27 +1,22 @@
 <template lang="html">
   <nav class="menu__header">
-    <Brand></Brand>
+    <h1 @click="goback">
+      <i class="fa fa-angle-left"></i>
+      <slot name="title"></slot>
+    </h1>
     <router-link to="/" class="menu__header__button">
       <i class="fa fa-home"></i>
     </router-link>
-    <router-link to="/search" class="menu__header__button">
-      <i class="fa fa-search"></i>
-    </router-link>
-    <!-- <router-link to="/conta" class="menu__header__button">
-      <i class="fa fa-user"></i>
-    </router-link> -->
   </nav>
 </template>
 
 <script>
-import Brand from '@/components/Brand.vue'
 export default {
-  name: 'MenuHeader',
-  data () {
-    return {}
-  },
-  components: {
-    'Brand': Brand
+  name: 'MenuHeaderWatch',
+  methods: {
+    goback: function () {
+      window.history.back(-1)
+    }
   }
 }
 </script>
@@ -30,16 +25,25 @@ export default {
 .menu__header {
   background-color: black;
   display: flex;
-  justify-content: space-around;
+  padding: 0 10px;
+  justify-content: space-between;
   align-items: center;
 }
+
+h1 {
+  font-size: 13px;
+  color: white;
+  text-transform: uppercase;
+  cursor: default;
+}
+
 .menu__header__button {
-  width: 20%;
+  font-size: 2vh;
   border: none;
+  padding: 15px 0;
   background-color: transparent;
   color: white;
   line-height: 1;
-  padding: 15px 0 ;
   text-align: center;
   text-transform: uppercase;
   transition: .1s ease-in-out all;

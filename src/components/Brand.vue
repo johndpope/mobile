@@ -14,7 +14,7 @@ export default {
 
 <style lang="scss" scoped>
   h1 {
-    font-size: 2vh;
+    font-size: 13px;
     color: white;
     text-transform: uppercase;
     cursor: default;

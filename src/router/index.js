@@ -6,7 +6,7 @@ import Search from '@/views/Search'
 import Lista from '@/views/Lista'
 import Conta from '@/views/Conta'
 
-import Player from '@/views/Player'
+import Watch from '@/views/Watch'
 
 Vue.use(Router)
 
@@ -35,8 +35,14 @@ export default new Router({
     },
     {
       path: '/watch/:slug',
-      name: 'Player',
-      component: Player,
+      name: 'Watch',
+      component: Watch,
+      props: true
+    },
+    {
+      path: '/watch/:slug/:ep',
+      name: 'WatchEp',
+      component: Watch,
       props: true
     }
   ]

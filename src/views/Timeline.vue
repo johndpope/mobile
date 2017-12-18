@@ -47,14 +47,7 @@ export default {
     text-transform: uppercase;
     color: #DADCDD;
   }
-
-  .container {
-    width: calc(100% - 20px);
-    max-width: 992px;
-    margin: 0 auto;
-    padding: 0 10px;
-  }
-
+  
   .container__row {
     width: 100%;
     display: flex;

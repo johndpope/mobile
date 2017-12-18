@@ -1,8 +1,11 @@
 <template lang="html">
   <nav class="menu__header">
-    <button @click="goback" class="menu__header__button">
+    <h1 @click="goback">
       <i class="fa fa-angle-left"></i>
-      Minha conta
+      <slot name="title"></slot>
+    </h1>
+    <button type="submit" name="submit" class="menu__header__button">
+      <i class="fa fa-check"></i>
     </button>
   </nav>
 </template>
@@ -26,6 +29,14 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
+h1 {
+  font-size: 13px;
+  color: white;
+  text-transform: uppercase;
+  cursor: default;
+}
+
 .menu__header__button {
   font-size: 2vh;
   border: none;
