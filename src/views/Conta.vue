@@ -100,7 +100,7 @@ export default {
     }
   },
   created () {
-    this.$http.get(`http://localhost:3000/user/view/5`).then(response => {
+    this.$http.get(this.$api(`user/view/5`)).then(response => {
       this.user = response.body
     }, response => {
       // code:

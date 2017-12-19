@@ -32,7 +32,7 @@ export default {
     'ArticlePost': ArticlePost
   },
   created () {
-    this.$http.get('http://api.animeai.online/posts/lista').then(response => {
+    this.$http.get(this.$api('posts/lista')).then(response => {
       this.posts = response.body
     }, response => {
       // code:
@@ -47,7 +47,7 @@ export default {
     text-transform: uppercase;
     color: #DADCDD;
   }
-  
+
   .container__row {
     width: 100%;
     display: flex;

@@ -37,7 +37,7 @@ export default {
         return false
       }
 
-      this.$http.get(`http://api.animeai.online/posts/busca/${event.target.value}`).then(response => {
+      this.$http.get(this.$api(`posts/busca/${event.target.value}`)).then(response => {
         this.posts = response.body
         this.buscaStatus = `Mostrando ${this.posts.length}`
       }, response => {

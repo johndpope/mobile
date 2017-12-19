@@ -4,11 +4,10 @@
     </MenuHeader>
 
     <div class="container">
-      <Player :src="episodioAtual.url" :poster="post.imagem"></Player>
+      <Player :src="randomCDN(episodioAtual.url)" :poster="post.imagem"></Player>
 
-      <div class="info-post">
+      <div class="info-post collapse" @click="toggleInfo" ref="info-post">
         <h1>{{ post.titulo }}</h1>
-        <h3>{{ episodioAtual.titulo }}</h3>
         <h2>{{ post.generos.split(',').join(', ') }}</h2>
         <p>{{ post.descricao }}</p>
       </div>
@@ -20,7 +19,7 @@
               <h4>{{ episodio.titulo }}</h4>
               <h5>{{ episodio.tipo }}</h5>
             </div>
-            <i v-if="ep == episodio.id" class="fa fa-flag"></i>
+            <i v-if="ep == episodio.id" class="fa fa-flag-o"></i>
           </router-link>
       </nav>
     </div>
@@ -60,16 +59,33 @@ export default {
   },
   methods: {
     fetchEpisodios: function () {
-      this.$http.get(`http://localhost:3000/episodios/lista/${this.post.id}`).then(response => {
+      this.$http.get(this.$api(`episodios/lista/${this.post.id}`)).then(response => {
         this.episodios = response.body
       }, response => {
         // code:
       })
+    },
+    toggleInfo: function (event) {
+      this.$refs['info-post'].classList.toggle('collapse')
+    },
+    setEpisodioAtual: function () {
+      let self = this
+      this.episodios.map(function (value, key) {
+        if (parseInt(value.id) === parseInt(self.ep)) {
+          self.episodioAtual = value
+          return false
+        }
+      })
+    },
+    randomCDN: function (url) {
+      let rand = Math.floor(Math.random() * 2) + 1
+      return url.replace(url.substr(url.indexOf('cdn'), 4), `cdn${rand}`).replace('https', 'http')
     }
   },
   watch: {
     '$route': function (value) {
       if (value.name === 'WatchEp') {
+        this.setEpisodioAtual()
         document.body.scrollTop = 0 // For Safari
         document.documentElement.scrollTop = 0 // All
       }
@@ -77,9 +93,10 @@ export default {
   },
   created () {
     // fetchPost
-    this.$http.get(`http://localhost:3000/posts/view/${this.slug}`).then(response => {
+    this.$http.get(this.$api(`posts/view/${this.slug}`)).then(response => {
       this.post = response.body
       this.fetchEpisodios()
+      // this.setEpisodioAtual()
     }, response => {
       // code:
     })
@@ -95,6 +112,27 @@ export default {
 
 .info-post {
   color: $color-white;
+  transition: .4s ease-in-out all;
+  position: relative;
+}
+
+.info-post.collapse {
+  height: 70px;
+  overflow: hidden;
+}
+
+.info-post:before {
+  content: '\f106';
+  font-family: 'FontAwesome';
+  color: white;
+  position: absolute;
+  font-size: 24px;
+  right: 10px;
+  top: 10px;
+}
+
+.info-post.collapse:before {
+  content: '\f107';
 }
 
 .info-post h1 {
