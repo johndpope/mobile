@@ -37,18 +37,7 @@ export default {
   data () {
     return {
       posts: [],
-      episodios: [
-        {
-          id: '231',
-          titulo: 'Episodio 91',
-          tipo: 'Temporada 3',
-          parent: {
-            titulo: 'Alola do Tchan',
-            slug: 'slug-parent',
-            capa: 'https://source.unsplash.com/random/200x190'
-          }
-        }
-      ]
+      episodios: []
     }
   },
   components: {
@@ -57,11 +46,11 @@ export default {
     'ArticleEpisodio': ArticleEpisodio
   },
   created () {
-    // this.$http.get(this.$api('episodios/novos')).then(response => {
-    //   this.episodios = response.body
-    // }, response => {
-    //   // code:
-    // })
+    this.$http.get(this.$api('episodios/novos')).then(response => {
+      this.episodios = response.body
+    }, response => {
+      // code:
+    })
     this.$http.get(this.$api('posts/lista')).then(response => {
       this.posts = response.body
     }, response => {
@@ -73,7 +62,7 @@ export default {
 
 <style lang="scss">
   h2 {
-    margin: 20px 0 10px 0;
+    margin: 20px 0 20px 0;
     text-transform: uppercase;
     color: #DADCDD;
   }
