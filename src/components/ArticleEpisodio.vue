@@ -1,10 +1,10 @@
 <template lang="html">
-	<router-link :to="`/watch/SLUG-PARENT/${item.id}`" class="article_post">
-		<h4>Título anime</h4>
-		<h5>{{ item.titulo }}</h5>
+	<router-link :to="`/watch/${item.parent.slug}/${item.id}`" class="article_post">
 		<span class="article_post__capa">
-			<img src="//animesgo.net/img/animesgo-image.png" :alt="item.titulo">
+			<img :src="item.parent.capa" :alt="item.titulo">
 		</span>
+		<h4>{{ item.titulo }}</h4>
+		<h5>{{ item.parent.titulo }}</h5>
 	</router-link>
 </template>
 
@@ -17,8 +17,8 @@ export default {
 
 <style lang="scss" scoped>
 	.article_post {
-		width: 100%;
-		margin: 0 0 40px 0;
+		width: calc(50% - 10px);
+		margin: 0 10px 40px 0;
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center;
@@ -38,7 +38,7 @@ export default {
 	.article_post__capa {
 		width: 100%;
 		height: 170px;
-		margin: 10px 0 0 0;
+		margin: 0 0 10px 0;
 		overflow: hidden;
 		display: block;
 	}
@@ -49,7 +49,7 @@ export default {
 
 	@media (min-width: 768px) {
 		.article_post {
-			width: calc(50% - 10px);
+			width: calc(25% - 10px);
 			margin: 0 10px 40px 0;
 		}
 	}
