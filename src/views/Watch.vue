@@ -12,6 +12,10 @@
         <p>{{ post.descricao }}</p>
       </div>
 
+      <ul class="sts">
+        <li class="st" v-for="temporada in temporadas" @click="selectedTemporada = temporada" :class="{ 'active-temporada': selectedTemporada == temporada }"></li>
+      </ul>
+
       <nav class="lista">
           <router-link class="episodio" v-for="episodio in episodios" :to="{ path: '/watch/' + slug + '/' + episodio.id }" :id="episodio.id" :key="episodio.id">
             <i class="fa fa-play-circle"></i>
@@ -52,15 +56,25 @@ export default {
         imagem: '//animesgo.net/img/animesgo-image.png'
       },
       episodios: {},
+      temporadas: [],
+      selectedTemporada: '',
       episodioAtual: {
         url: ''
       }
+    }
+  },
+  computed: {
+    filteredTemporadas () {
+      return this.temporadas.filter(temporada => {
+        return this.temporada.match(this.selectedTemporada)
+      })
     }
   },
   methods: {
     fetchEpisodios: function () {
       this.$http.get(this.$api(`episodios/lista/${this.post.id}`)).then(response => {
         this.episodios = response.body
+        this.setEpisodioAtual()
       }, response => {
         // code:
       })
@@ -71,9 +85,14 @@ export default {
     setEpisodioAtual: function () {
       let self = this
       this.episodios.map(function (value, key) {
+        // get temporadas
+        if (self.temporadas.indexOf(value.tipo) === -1) {
+          self.temporadas.push(value.tipo)
+        }
+        self.selectedTemporada = self.temporadas[0]
+        // set currentEpisodio
         if (parseInt(value.id) === parseInt(self.ep)) {
           self.episodioAtual = value
-          return false
         }
       })
     },
@@ -96,7 +115,6 @@ export default {
     this.$http.get(this.$api(`posts/view/${this.slug}`)).then(response => {
       this.post = response.body
       this.fetchEpisodios()
-      // this.setEpisodioAtual()
     }, response => {
       // code:
     })
