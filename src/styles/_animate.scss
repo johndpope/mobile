@@ -1,0 +1,46 @@
+// push
+.push-enter-active,
+.push-leave-active {
+  transition: all .3s;
+}
+
+.push-enter-active {
+  transition-delay: .2s;
+}
+
+.push-enter,
+.push-leave-active {
+  transform: translateY(-50px) scaleY(0);
+}
+
+
+// fade
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .3s;
+}
+
+.fade-enter-active {
+  transition-delay: .3s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+// fade
+.slideDown-enter-active,
+.slideDown-leave-active {
+  transition: all .7s;
+}
+
+.slideDown-enter-active {
+  transition-delay: .1s;
+}
+
+.slideDown-enter,
+.slideDown-leave-active {
+  font-size: 0px;
+  overflow: hidden;
+}

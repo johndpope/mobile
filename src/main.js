@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
-
 import App from './App'
 import router from './router'
 
@@ -20,7 +19,7 @@ var config = {
     wb_avatar: '//www.animesgo.net/upload/image/user/'
   }
 }
-Vue.prototype.$config = config.prod
+Vue.prototype.$config = config.local
 Vue.prototype.$api = function (req) {
   return this.$config.api + req
 }

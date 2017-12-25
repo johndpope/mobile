@@ -45,17 +45,25 @@ export default {
     'ArticlePost': ArticlePost,
     'ArticleEpisodio': ArticleEpisodio
   },
+  methods: {
+    fetchNovosEpisodios: function () {
+      this.$http.get(this.$api('episodios/novos')).then(response => {
+        this.episodios = response.body
+      }, response => {
+        // code:
+      })
+    },
+    fetchLista: function () {
+      this.$http.get(this.$api('posts/lista')).then(response => {
+        this.posts = response.body
+      }, response => {
+        // code:
+      })
+    }
+  },
   created () {
-    this.$http.get(this.$api('episodios/novos')).then(response => {
-      this.episodios = response.body
-    }, response => {
-      // code:
-    })
-    this.$http.get(this.$api('posts/lista')).then(response => {
-      this.posts = response.body
-    }, response => {
-      // code:
-    })
+    this.fetchNovosEpisodios()
+    this.fetchLista()
   }
 }
 </script>

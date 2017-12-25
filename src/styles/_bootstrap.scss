@@ -1,0 +1,44 @@
+.container {
+	width: calc(100% - 20px);
+	max-width: 992px;
+	margin: 0 auto;
+	padding: 0 10px;
+}
+
+.btn {
+	@include button;
+}
+
+.btn.default {
+	background-color: $color-cinza;
+	color: $color-white;
+	@include button;
+}
+
+.btn.default.active {
+	background-color: $color-white;
+	color: black;
+}
+
+.btn.success {
+	background-color: $color-green;
+	color: $color-white;
+	@include button;
+}
+
+.btn.error {
+	background-color: $color-red;
+	color: $color-white;
+	@include button;
+}
+
+.btn.info {
+	background-color: $color-blue;
+	color: $color-white;
+	@include button;
+}
+
+.row-buttons {}
+.row-buttons .btn + .btn {
+	margin-left: 5px;
+}

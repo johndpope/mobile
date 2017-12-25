@@ -13,27 +13,13 @@ export default {
 </script>
 
 <style lang="scss">
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity .3s;
-}
-
-.fade-enter-active {
-  transition-delay: .3s;
-}
-
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block;*display:inline;*zoom:1}
 audio:not([controls]){display:none;height:0}
 [hidden]{display:none}
 html{font-size:80%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
 html,button,input,select,textarea{font-family:sans-serif}
-body{margin:0;background-color:#2D2F3B}
+body{margin:0;background-color:$color-bg-body}
 a{text-decoration:none}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}

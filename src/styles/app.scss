@@ -1,26 +1,4 @@
-$color-azul: #145BA6;
-$color-azul-claro: #6597CC;
-$color-azul-light: #007BFE;
-
-// cors
-$color-green: #22CF7B;
-$color-red: #DF3D20;
-$color-orange: #E79F00;
-$color-blue: #0074FC;
-$color-cinza: #9C9C9C;
-$color-white: #e2e2e2;
-$color-disabled: #565E74;
-
-@mixin button() {
-	border: none;
-	border-radius: 3px;
-	font-size: 12px;
-	padding: 5px 10px;
-}
-
-.container {
-	width: calc(100% - 20px);
-	max-width: 992px;
-	margin: 0 auto;
-	padding: 0 10px;
-}
+@import "_vars.scss";
+@import "_mixins.scss";
+@import "_bootstrap.scss";
+@import "_animate.scss";

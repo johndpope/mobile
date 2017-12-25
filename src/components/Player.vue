@@ -1,6 +1,8 @@
 <template lang="html">
-	<video :poster="poster" :src="src" controls>
-	</video>
+	<div class="container-player">
+    <video :poster="poster" :src="src" controls preload="metadata">
+  	</video>
+  </div>
 </template>
 
 <script>
@@ -20,10 +22,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 video {
   width: 100%;
   height: auto;
 }
-
 </style>

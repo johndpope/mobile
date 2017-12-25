@@ -4,26 +4,44 @@
     </MenuHeader>
 
     <div class="container">
-      <Player :src="randomCDN(episodioAtual.url)" :poster="post.imagem"></Player>
+      <Player :src="episodioAtual.url" :poster="post.imagem"></Player>
 
-      <div class="info-post collapse" @click="toggleInfo" ref="info-post">
+      <div class="info-post" :class="{'expanded': exibirInfoPost }" @click="exibirInfoPost = !exibirInfoPost">
         <h1>{{ post.titulo }}</h1>
         <h2>{{ post.generos.split(',').join(', ') }}</h2>
-        <p>{{ post.descricao }}</p>
+        <transition name="fade">
+          <p v-if="exibirInfoPost">{{ post.descricao }}</p>
+        </transition>
       </div>
 
-      <ul class="sts">
-        <li class="st" v-for="temporada in temporadas" @click="selectedTemporada = temporada" :class="{ 'active-temporada': selectedTemporada == temporada }"></li>
-      </ul>
+      <div class="seletor-temporada">
+        <button class="seletor-temporada-atual" @click="exibirListaTemporadas = !exibirListaTemporadas">
+          <i class="fa fa-angle-right"></i>
+          {{ temporadaSelecionada }}
+        </button>
+        <transition name="push">
+          <ul class="lista-temporadas" v-if="exibirListaTemporadas">
+            <li class="lista-temporadas-temporada" v-for="temporada in temporadas" @click="definirTemporada(temporada)">
+              {{ temporada }}
+            </li>
+          </ul>
+        </transition>
+      </div>
+
+      <div class="row-buttons">
+        <button v-for="idioma in idiomas" @click="idiomaSelecionado = idioma" :class="{ 'active': idioma == idiomaSelecionado }" class="btn default">
+          {{ idioma }}
+        </button>
+      </div>
 
       <nav class="lista">
-          <router-link class="episodio" v-for="episodio in episodios" :to="{ path: '/watch/' + slug + '/' + episodio.id }" :id="episodio.id" :key="episodio.id">
+          <router-link class="episodio" v-for="episodio in episodiosFiltrado" v-if="episodio.idioma == idiomaSelecionado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
             <i class="fa fa-play-circle"></i>
             <div class="episodio-info">
               <h4>{{ episodio.titulo }}</h4>
               <h5>{{ episodio.tipo }}</h5>
             </div>
-            <i v-if="ep == episodio.id" class="fa fa-flag-o"></i>
+            <i v-if="ep == episodio.id" class="fa fa-check"></i>
           </router-link>
       </nav>
     </div>
@@ -55,44 +73,65 @@ export default {
         generos: '',
         imagem: '//animesgo.net/img/animesgo-image.png'
       },
-      episodios: {},
+      exibirInfoPost: false,
+      exibirListaTemporadas: false,
+      temporadaSelecionada: '',
       temporadas: [],
-      selectedTemporada: '',
+      episodios: {},
+      episodiosFiltrado: {},
+      idiomas: [],
+      idiomaSelecionado: '',
       episodioAtual: {
         url: ''
       }
     }
   },
   computed: {
-    filteredTemporadas () {
-      return this.temporadas.filter(temporada => {
-        return this.temporada.match(this.selectedTemporada)
-      })
-    }
+    // code
   },
   methods: {
+    definirTemporada: function (temporada) {
+      this.exibirListaTemporadas = false
+      this.temporadaSelecionada = temporada
+      this.episodiosFiltrado = this.episodios.filter(function (episodio) {
+        return episodio.tipo.match(temporada)
+      })
+    },
     fetchEpisodios: function () {
       this.$http.get(this.$api(`episodios/lista/${this.post.id}`)).then(response => {
         this.episodios = response.body
+
+        // [for-update] configurações do usuário
         this.setEpisodioAtual()
+        this.idiomaSelecionado = (this.idiomaSelecionado === '') ? this.episodios[0].idioma : this.idiomaSelecionado
+        this.definirTemporada((this.temporadaSelecionada === '') ? this.episodios[0].tipo : this.temporadaSelecionada)
       }, response => {
         // code:
       })
     },
-    toggleInfo: function (event) {
-      this.$refs['info-post'].classList.toggle('collapse')
+    fetchPost: function () {
+      this.$http.get(this.$api(`posts/view/${this.slug}`)).then(response => {
+        this.post = response.body
+        this.fetchEpisodios()
+      }, response => {
+        // code:
+      })
     },
     setEpisodioAtual: function () {
       let self = this
-      this.episodios.map(function (value, key) {
+      this.episodios.map(function (episodio, key) {
         // get temporadas
-        if (self.temporadas.indexOf(value.tipo) === -1) {
-          self.temporadas.push(value.tipo)
+        if (self.temporadas.indexOf(episodio.tipo) === -1) {
+          self.temporadas.push(episodio.tipo)
         }
-        self.selectedTemporada = self.temporadas[0]
+        // get idiomas
+        if (self.idiomas.indexOf(episodio.idioma) === -1) {
+          self.idiomas.push(episodio.idioma)
+        }
         // set currentEpisodio
-        if (parseInt(value.id) === parseInt(self.ep)) {
-          self.episodioAtual = value
+        if (self.ep === '' || parseInt(episodio.id) === parseInt(self.ep)) {
+          self.episodioAtual = episodio
+          self.episodioAtual.url = self.randomCDN(self.episodioAtual.url)
         }
       })
     },
@@ -111,60 +150,98 @@ export default {
     }
   },
   created () {
-    // fetchPost
-    this.$http.get(this.$api(`posts/view/${this.slug}`)).then(response => {
-      this.post = response.body
-      this.fetchEpisodios()
-    }, response => {
-      // code:
-    })
+    this.fetchPost()
   }
 }
 </script>
 
 <style lang="scss" scoped>
 
+.seletor-temporada {
+  position: relative;
+  width: 100%;
+}
+
+.seletor-temporada-atual {
+  @include button;
+}
+
+.lista-temporadas {
+  position: absolute;
+  top: 13px;
+  padding: 10px 5px 5px;
+  left: 0;
+  z-index: 100;
+  list-style: none;
+  background-color: $color-cinza;
+}
+
+.lista-temporadas-temporada {
+  padding: 10px 5px;
+  color: $color-white;
+  font-size: 12px;
+}
+
+.lista-temporadas-temporada + .lista-temporadas-temporada {
+  border-top: 1px solid rgba(255,255,255,.2);
+}
+
+.row-buttons {
+  margin-top: 10px;
+}
+
+.row-buttons .btn {
+  text-transform: capitalize;
+}
+
 .container {
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
 .info-post {
   color: $color-white;
   transition: .4s ease-in-out all;
   position: relative;
-}
-
-.info-post.collapse {
-  height: 70px;
-  overflow: hidden;
+  padding: 5px 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
 }
 
 .info-post:before {
-  content: '\f106';
+  content: '\f107';
   font-family: 'FontAwesome';
   color: white;
   position: absolute;
   font-size: 24px;
   right: 10px;
   top: 10px;
+  transition: .5s ease-in-out all .1s;
 }
 
-.info-post.collapse:before {
-  content: '\f107';
+.info-post.expanded {
+  // code
+}
+
+.info-post.expanded:before {
+  transform: translateY(8px) rotateZ(180deg);
 }
 
 .info-post h1 {
   font-size: 18px;
+  width: calc(100% - 30px);
 }
 
 .info-post h2 {
+  width: calc(100% - 30px);
   color: $color-cinza;
   font-size: 13px;
 }
 
 .info-post p {
+  width: calc(100% - 20px);
   font-size: 13px;
   line-height: 1.3;
+  color: $color-white;
 }
 
 .lista {
