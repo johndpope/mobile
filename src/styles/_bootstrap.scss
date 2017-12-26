@@ -5,6 +5,15 @@
 	padding: 0 10px;
 }
 
+hr.white {
+	border: none;
+	border-bottom: 1px solid rgba(255,255,255,.1);
+}
+hr.black {
+	border: none;
+	border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
 .btn {
 	@include button;
 }
@@ -12,6 +21,12 @@
 .btn.default {
 	background-color: $color-cinza;
 	color: $color-white;
+	@include button;
+}
+
+.btn.link {
+	background-color: rgba(255,255,255,.1);
+	color: $color-cinza;
 	@include button;
 }
 

@@ -1,11 +1,23 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import VueVideoPlayer from 'vue-video-player'
+import VueAnalytics from 'vue-analytics'
+import Raven from 'raven-js'
+import RavenVue from 'raven-js/plugins/vue'
 import App from './App'
 import router from './router'
 
+// CSS
 import 'font-awesome/css/font-awesome.css'
+import 'animate.css/animate.css'
+import 'video.js/dist/video-js.css'
 
+Raven.config('https://6983beb5db044cb39ac2419e6faff729@sentry.io/263729').addPlugin(RavenVue, Vue).install()
+
+// Configs (ORGANIZAR MELHOR)
 Vue.use(VueResource)
+Vue.use(VueVideoPlayer)
+Vue.use(VueAnalytics, {id: 'UA-106829297-1'})
 Vue.config.productionTip = false
 var config = {
   local: {

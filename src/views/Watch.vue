@@ -8,9 +8,18 @@
 
       <div class="info-post" :class="{'expanded': exibirInfoPost }" @click="exibirInfoPost = !exibirInfoPost">
         <h1>{{ post.titulo }}</h1>
-        <h2>{{ post.generos.split(',').join(', ') }}</h2>
-        <transition name="fade">
-          <p v-if="exibirInfoPost">{{ post.descricao }}</p>
+        <h2 v-if="episodioAtual.url !== ''">
+          <i class="fa fa-fw fa-play"></i> {{ episodioAtual.titulo }} - {{ episodioAtual.idioma }}
+        </h2>
+        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
+          <div v-if="exibirInfoPost">
+            <p>{{ post.descricao }}</p>
+            <p class="info-post--generos">
+              <span class="info-post--generos--genero" v-for="genero in post.generos.split(',')">
+                {{ genero }}
+              </span>
+            </p>
+          </div>
         </transition>
       </div>
 
@@ -20,7 +29,7 @@
           {{ temporadaSelecionada }}
         </button>
         <transition name="push">
-          <ul class="lista-temporadas" v-if="exibirListaTemporadas">
+          <ul class="lista-temporadas" v-if="exibirListaTemporadas && temporadas.length > 1">
             <li class="lista-temporadas-temporada" v-for="temporada in temporadas" @click="definirTemporada(temporada)">
               {{ temporada }}
             </li>
@@ -35,13 +44,11 @@
       </div>
 
       <nav class="lista">
-          <router-link class="episodio" v-for="episodio in episodiosFiltrado" v-if="episodio.idioma == idiomaSelecionado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
+          <router-link :class="{ 'active': ep == episodio.id }" class="episodio" v-for="episodio in episodiosFiltrado" v-if="episodio.idioma == idiomaSelecionado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
             <i class="fa fa-play-circle"></i>
             <div class="episodio-info">
               <h4>{{ episodio.titulo }}</h4>
-              <h5>{{ episodio.tipo }}</h5>
             </div>
-            <i v-if="ep == episodio.id" class="fa fa-check"></i>
           </router-link>
       </nav>
     </div>
@@ -168,22 +175,27 @@ export default {
 
 .lista-temporadas {
   position: absolute;
-  top: 13px;
-  padding: 10px 5px 5px;
-  left: 0;
-  z-index: 100;
+  top: 10px;
+  width: 123px;
   list-style: none;
-  background-color: $color-cinza;
+  padding: 0;
+  background-color: $color-white;
+  @include box-shadow();
 }
 
 .lista-temporadas-temporada {
   padding: 10px 5px;
-  color: $color-white;
+  color: black;
   font-size: 12px;
+  cursor: pointer;
+}
+
+.lista-temporadas-temporada:hover {
+  opacity: .4;
 }
 
 .lista-temporadas-temporada + .lista-temporadas-temporada {
-  border-top: 1px solid rgba(255,255,255,.2);
+  border-top: 1px solid rgba(100,100,255,.1);
 }
 
 .row-buttons {
@@ -244,6 +256,13 @@ export default {
   color: $color-white;
 }
 
+.info-post--generos--genero {
+  @include button;
+  background-color: rgba(255,255,255,.1);
+  display: inline-block;
+  margin: 0 5px 5px 0;
+}
+
 .lista {
   list-style: none;
   display: flex;
@@ -252,17 +271,23 @@ export default {
 }
 
 .episodio {
-  background-color: $color-blue;
+  @include display-flex(center);
+  background-color: rgba(255,255,255,.1);
   margin: 0 0 5px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
+  color: $color-white;
   padding: 10px;
 }
 
+.episodio:hover {
+  color: white;
+}
+
+.episodio.active {
+  background-color: rgba(0,150,250,.2);
+}
+
 .episodio.disabled {
-  background-color: $color-cinza;
+  opacity: .5;
 }
 
 .episodio .fa {
@@ -275,15 +300,10 @@ export default {
   width: 100%;
 }
 
-.episodio-info h4,
-.episodio-info h5 {
+.episodio-info h4 {
   margin: 0;
   font-size: 13px;
-}
-
-.episodio-info h4 {
   text-transform: uppercase;
-  margin-bottom: 5px;
 }
 
 </style>

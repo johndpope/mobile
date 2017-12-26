@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <transition name="fade">
+    <transition name="fade" mode="in-out">
       <router-view/>
     </transition>
   </div>
@@ -9,6 +9,14 @@
 <script>
 export default {
   name: 'app'
+  // watch: {
+  //   '$route': function (to, from, next) {
+  //     const toDepth = to.path.split('/').length
+  //     const fromDepth = from.path.split('/').length
+  //     this.transitionRouter = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+  //     next()
+  //   }
+  // }
 }
 </script>
 
