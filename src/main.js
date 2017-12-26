@@ -17,7 +17,7 @@ Raven.config('https://6983beb5db044cb39ac2419e6faff729@sentry.io/263729').addPlu
 // Configs (ORGANIZAR MELHOR)
 Vue.use(VueResource)
 Vue.use(VueVideoPlayer)
-Vue.use(VueAnalytics, {id: 'UA-106829297-1'})
+Vue.use(VueAnalytics, {id: 'UA-106829297-3'})
 Vue.config.productionTip = false
 var config = {
   local: {
@@ -31,7 +31,7 @@ var config = {
     wb_avatar: '//www.animesgo.net/upload/image/user/'
   }
 }
-Vue.prototype.$config = config.local
+Vue.prototype.$config = config.prod
 Vue.prototype.$api = function (req) {
   return this.$config.api + req
 }
