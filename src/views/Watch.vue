@@ -1,7 +1,6 @@
 <template lang="html">
 	<div>
-    <MenuHeader>
-    </MenuHeader>
+    <MenuHeader></MenuHeader>
 
     <div class="container">
       <Player :src="episodioAtual.url" :poster="post.imagem"></Player>

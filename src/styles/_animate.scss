@@ -13,6 +13,18 @@
   transform: translateY(-50px) scaleY(0);
 }
 
+// slide-right
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all .3s;
+}
+
+.slide-right-enter,
+.slide-right-leave-active {
+  opacity: 0;
+  transform: translateX(200px) scaleX(0);
+}
+
 
 // fade
 .fade-enter-active,

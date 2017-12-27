@@ -1,27 +1,36 @@
 <template lang="html">
-  <nav class="menu__header">
-    <Brand></Brand>
-    <router-link to="/" class="menu__header__button">
-      <i class="fa fa-home"></i>
-    </router-link>
-    <router-link to="/search" class="menu__header__button">
-      <i class="fa fa-search"></i>
-    </router-link>
-    <!-- <router-link to="/conta" class="menu__header__button">
-      <i class="fa fa-user"></i>
-    </router-link> -->
-  </nav>
+  <div>
+    <nav class="menu__header">
+      <Brand></Brand>
+      <router-link to="/" class="menu__header__button">
+        <i class="fa fa-home"></i>
+      </router-link>
+      <router-link to="/search" class="menu__header__button">
+        <i class="fa fa-search"></i>
+      </router-link>
+      <a href="#" @click.prevent="showMenuCollapse = !showMenuCollapse" class="menu__header__button">
+        <i class="fa fa-bars"></i>
+      </a>
+    </nav>
+    <transition name="slide-right" mode="in-out">
+      <MenuCollapse v-if="showMenuCollapse"></MenuCollapse>
+    </transition>
+  </div>
 </template>
 
 <script>
 import Brand from '@/components/Brand.vue'
+import MenuCollapse from '@/components/MenuCollapse.vue'
 export default {
   name: 'MenuHeader',
   data () {
-    return {}
+    return {
+      showMenuCollapse: false
+    }
   },
   components: {
-    'Brand': Brand
+    'Brand': Brand,
+    'MenuCollapse': MenuCollapse
   }
 }
 </script>
