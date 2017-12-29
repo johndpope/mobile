@@ -11,7 +11,7 @@
   transform: $transform;
 }
 
-@mixin transition($string: $transition--default) {
+@mixin transition($string: .1s ease-in-out all) {
   -webkit-transition: $string;
   -moz-transition: $string;
   -ms-transition: $string;

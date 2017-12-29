@@ -1,5 +1,5 @@
 <template lang="html">
-	<router-link :to="`/watch/${item.slug}`" class="article_post" :class="{ full: personalize }">
+	<router-link :to="`/watch/${item.slug}`" class="article_post" :class="{ 'full': personalize }">
 		<span class="article_post__capa">
 			<img :src="item.capa" :alt="item.titulo">
 		</span>
@@ -32,7 +32,7 @@ export default {
 	.article_post.full {
 		width: 100%;
 	}
-	
+
 	.article_post:hover * {
 		color: white;
 	}

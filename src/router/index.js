@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Timeline from '@/views/Timeline'
 import Search from '@/views/Search'
+import Filter from '@/views/Filter'
 import Lista from '@/views/Lista'
 import Conta from '@/views/Conta'
 
@@ -22,6 +23,18 @@ export default new Router({
       path: '/search',
       name: 'Search',
       component: Search
+    },
+    {
+      path: '/search/:cmd',
+      name: 'SearchFilter',
+      component: Search,
+      props: true
+    },
+    {
+      path: '/filter/:chave/:valor',
+      name: 'Filter',
+      component: Filter,
+      props: true
     },
     {
       path: '/heart',

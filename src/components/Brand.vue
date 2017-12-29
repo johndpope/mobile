@@ -1,9 +1,9 @@
 <template lang="html">
-  <h1>
+  <router-link to="/" tag="h1">
     <i class="fa fa-play-circle"></i>
     <span class="animes">Animes</span>
     <span class="go">GO</span>
-  </h1>
+  </router-link>
 </template>
 
 <script>
@@ -17,7 +17,7 @@ export default {
     font-size: 13px;
     color: white;
     text-transform: uppercase;
-    cursor: default;
+    cursor: pointer;
   }
   h1 span.animes {
     z-index: 0;

@@ -2,19 +2,17 @@
     <div>
         <MenuHeader></MenuHeader>
         <div class="container">
-          <input type="search" name="search_text" v-model="buscaTexto" @focus="clearInput" @keyup="busca">
-          <h2> {{ buscaStatus }}</h2>
+          <h2> {{ buscaStatus }} {{ posts.length }}</h2>
           <div class="container__row">
             <ArticlePost
               v-for="(post, index) in posts"
               :item="post"
-              :personalize="index == 0 && posts.length%2 ? true : false"
               :index="index"
               :key="post.id">
             </ArticlePost>
           </div>
         </div>
-        <div class="container" v-if="posts.length > 1">
+        <div class="container">
           <InfiniteLoading @infinite="infiniteHandler" ref="infiniteLoading" spinner="spiral">
             <h2 slot="no-more">Isso é tudo :)</h2>
             <h2 slot="no-results">¯\_(ツ)_/¯</h2>
@@ -29,16 +27,18 @@ import MenuHeader from '@/components/MenuHeader.vue'
 import ArticlePost from '@/components/ArticlePost.vue'
 export default {
   props: {
-    cmd: {
-      required: false,
+    chave: {
+      required: true,
+      type: String
+    },
+    valor: {
+      required: true,
       type: String
     }
   },
   data () {
     return {
       buscaStatus: 'Aguardando dados...',
-      limparInput: true,
-      buscaTexto: 'Quer ver o que agora?',
       posts: [],
       postsFull: []
     }
@@ -50,33 +50,45 @@ export default {
   },
   methods: {
     busca: function () {
-      if (this.buscaTexto.length < 3) {
-        return false
-      }
-      this.$http.get(this.$api(`posts/busca/${this.buscaTexto}`)).then(response => {
-        this.posts = response.body
-        this.buscaStatus = `Mostrando ${this.posts.length}`
+      this.$nextTick(() => {
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
+      })
+      this.$http.get(this.$api(`posts/filter/${this.chave}/${this.valor}/0`)).then(response => {
+        if (response.body.length) {
+          this.posts = response.body
+          this.buscaStatus = `Mostrando`
+        }
       }, response => {
           // code:
       })
     },
-    clearInput: function (event) {
-      event.target.value = this.limparInput ? '' : event.target.value
-      this.limparInput = false
-    },
     infiniteHandler: function ($state) {
       setTimeout(() => {
-        const temp = []
-        const diffLength = (this.postsFull.length - this.posts.length)
-        for (let i = this.posts.length + 1; i < this.posts.length + ((diffLength > 20) ? 20 : diffLength); i++) {
-          temp.push(this.postsFull[i])
-        }
-        this.posts = this.posts.concat(temp)
-        $state.loaded()
-        if (this.posts.length >= this.postsFull.length) {
+        const page = this.posts.length / 10
+        this.$http.get(this.$api(`posts/filter/${this.chave}/${this.valor}/${page}`)).then(response => {
+          if (response.body.length) {
+            this.posts = this.posts.concat(response.body)
+            $state.loaded()
+          } else {
+            $state.complete()
+          }
+        }, response => {
           $state.complete()
-        }
+        })
       }, 1000)
+    }
+  },
+  created () {
+    this.busca()
+  },
+  watch: {
+    chave: function () {
+      this.busca()
+      this.buscaTexto = ''
+    },
+    valor: function () {
+      this.busca()
+      this.buscaTexto = ''
     }
   }
 }
@@ -100,7 +112,7 @@ export default {
   }
 
   .container {
-    width: calc(100% - 20px);
+    width: calc(100% - 10px);
     max-width: 992px;
     margin: 0 auto;
     padding: 0 10px;
@@ -109,7 +121,7 @@ export default {
   .container__row {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
   }
 

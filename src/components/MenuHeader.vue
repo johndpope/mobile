@@ -1,18 +1,15 @@
 <template lang="html">
   <div>
     <nav class="menu__header">
+      <a href="#" @click.prevent="toggleMenuCollapse()" class="menu__header__button">
+        <i class="fa fa-bars"></i>
+      </a>
       <Brand></Brand>
-      <router-link to="/" class="menu__header__button">
-        <i class="fa fa-home"></i>
-      </router-link>
       <router-link to="/search" class="menu__header__button">
         <i class="fa fa-search"></i>
       </router-link>
-      <a href="#" @click.prevent="showMenuCollapse = !showMenuCollapse" class="menu__header__button">
-        <i class="fa fa-bars"></i>
-      </a>
     </nav>
-    <transition name="slide-right" mode="in-out">
+    <transition name="slide-left" mode="in-out">
       <MenuCollapse v-if="showMenuCollapse"></MenuCollapse>
     </transition>
   </div>
@@ -28,18 +25,34 @@ export default {
       showMenuCollapse: false
     }
   },
+  methods: {
+    toggleMenuCollapse: function () {
+      this.showMenuCollapse = !this.showMenuCollapse
+      document.body.style.overflow = this.showMenuCollapse ? 'hidden' : 'auto'
+    }
+  },
   components: {
     'Brand': Brand,
     'MenuCollapse': MenuCollapse
+  },
+  watch: {
+    '$route': function (from, to) {
+      this.toggleMenuCollapse()
+    }
+  },
+  beforeDestroy: function () {
+    this.showMenuCollapse = false
+    document.body.style.overflow = 'auto'
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .menu__header {
+  padding: 0 10px;
   background-color: black;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 .menu__header__button {

@@ -22,7 +22,22 @@
 .slide-right-enter,
 .slide-right-leave-active {
   opacity: 0;
-  transform: translateX(200px) scaleX(0);
+  transform: translateX(200px);
+}
+
+// slide-left
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all .3s;
+}
+
+.slide-left-enter-active {
+  transition-delay: .2s;
+}
+
+.slide-left-enter,
+.slide-left-leave-active {
+  opacity: 0;
 }
 
 
