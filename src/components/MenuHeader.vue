@@ -37,7 +37,8 @@ export default {
   },
   watch: {
     '$route': function (from, to) {
-      this.toggleMenuCollapse()
+      this.showMenuCollapse = false
+      document.body.style.overflow = 'auto'
     }
   },
   beforeDestroy: function () {
