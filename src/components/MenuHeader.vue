@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <nav class="menu__header">
-      <a href="#" @click.prevent="toggleMenuCollapse()" class="menu__header__button">
+      <a href="#" @click.prevent="showMenuCollapse = !showMenuCollapse" class="menu__header__button">
         <i class="fa fa-bars"></i>
       </a>
       <Brand></Brand>
@@ -26,9 +26,8 @@ export default {
     }
   },
   methods: {
-    toggleMenuCollapse: function () {
-      this.showMenuCollapse = !this.showMenuCollapse
-      document.body.style.overflow = this.showMenuCollapse ? 'hidden' : 'auto'
+    closeMenuCollapse: function () {
+      this.showMenuCollapse = false
     }
   },
   components: {
@@ -37,13 +36,20 @@ export default {
   },
   watch: {
     '$route': function (from, to) {
-      this.showMenuCollapse = false
-      document.body.style.overflow = 'auto'
+      this.closeMenuCollapse()
+    },
+    showMenuCollapse: function () {
+      if (this.showMenuCollapse === true) {
+        this.$root.$el.style.height = '100vh'
+        this.$root.$el.style.overflow = 'hidden'
+      } else {
+        this.$root.$el.style.height = 'auto'
+        this.$root.$el.style.overflow = 'auto'
+      }
     }
   },
   beforeDestroy: function () {
-    this.showMenuCollapse = false
-    document.body.style.overflow = 'auto'
+    this.closeMenuCollapse()
   }
 }
 </script>

@@ -1,11 +1,9 @@
 <template lang="html">
     <div>
-      <MenuHeader></MenuHeader>
-
       <div class="container">
         <section>
           <h2>Novos episódios</h2>
-          <div class="container__row">
+          <div class="columns-4">
             <ArticleEpisodio
               v-for="(episodio, index) in episodios"
               :item="episodio"
@@ -15,7 +13,7 @@
         </section>
         <section>
           <h2>Novos na AnimesGO</h2>
-          <div class="container__row">
+          <div class="columns-4">
             <ArticlePost
               v-for="(post, index) in posts"
               :item="post"
@@ -29,7 +27,6 @@
 </template>
 
 <script>
-import MenuHeader from '@/components/MenuHeader.vue'
 import ArticlePost from '@/components/ArticlePost.vue'
 import ArticleEpisodio from '@/components/ArticleEpisodio.vue'
 
@@ -41,7 +38,6 @@ export default {
     }
   },
   components: {
-    'MenuHeader': MenuHeader,
     'ArticlePost': ArticlePost,
     'ArticleEpisodio': ArticleEpisodio
   },
@@ -74,12 +70,4 @@ export default {
     text-transform: uppercase;
     color: #DADCDD;
   }
-
-  .container__row {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
 </style>

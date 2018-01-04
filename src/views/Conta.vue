@@ -4,33 +4,32 @@
       <b slot="title">Minha conta</b>
     </MenuHeaderBack>
 
-      <label for="nome">
-
+      <!-- <label for="nome">
         <span class="label">Nome</span>
-        <input type="text" name="fullname" v-model="user.fullname">
-      </label>
+        <input type="text" name="displayName" v-model="user.name">
+      </label> -->
       <label for="username">
         <span class="label">Nome de usuário</span>
-        <input type="text" name="username" v-model="user.username">
+        <input type="text" name="username" v-model="user.displayName">
       </label>
-      <label for="role">
+      <!-- <label for="role">
         <span class="label">Função</span>
         <input type="text" :value="user.role" disabled>
-      </label>
+      </label> -->
 
       <h3>Informações privadas</h3>
       <label for="email">
         <span class="label">Email</span>
         <input type="email" name="email" :value="user.email" disabled>
       </label>
-      <label for="newpassword">
+      <!-- <label for="newpassword">
         <span class="label">Alterar senha</span>
         <input name="newpassword" type="password" v-model="user.newpassword" placeholder="Insira a nova senha">
       </label>
       <label for="repassword">
         <span class="label">Confirmar</span>
         <input type="password" name="repassword" v-model="user.repassword">
-      </label>
+      </label> -->
 
       <modal v-if="showModal" @close="showModal = false">
         <div slot="header">
@@ -58,6 +57,7 @@
 <script>
 import MenuHeaderBack from '@/components/MenuHeaderBack.vue'
 import modal from '@/components/ModalAlterarSenha.vue'
+import firebase from '@/firebase.js'
 export default {
   components: {
     'MenuHeaderBack': MenuHeaderBack,
@@ -67,43 +67,41 @@ export default {
     return {
       showModal: false,
       userSubmit: {},
-      user: {
-        id: 0,
-        fullname: '#############',
-        username: '#############',
-        email: '#############',
-        role: '#############',
-        newpassword: '',
-        repassword: ''
-      }
+      user: {}
     }
   },
   methods: {
     submitForm: function () {
-      let formData = new FormData(event.target)
-      this.userSubmit = {
-        fullname: this.user.fullname,
-        username: this.user.username
-      }
-      if (formData.newpassword !== '' & formData.repassword !== '') {
-        console.log(formData.repassword)
-        if (formData.newpassword === formData.repassword) {
-          this.userSubmit.password = this.user.newpassword
-        }
-      }
-      // this.userSubmit.forEach((key, value) => console.log(value, key))
-      // this.$http.post(`http://localhost:3000/user/edit/${this.user.id}`, this.userSubmit).then(response => {
-      //
-      // }, response => {
-      //   // code error
-      // })
+      // let formData = new FormData(event.target)
+      let user = firebase.auth().currentUser
+      user.updateProfile({
+        displayName: this.user.displayName
+      }).then(function () {
+        this.relogar()
+      }).catch(function (error) {
+        console.error(error)
+      })
+    },
+    relogar: function () {
+      let user = firebase.auth().currentUser
+      user.reauthenticateWithCredential(this.user.email, this.user.password).then(function () {
+        this.user = user
+      }).catch(function (error) {
+        console.error(error)
+      })
     }
   },
-  created () {
-    this.$http.get(this.$api(`user/view/5`)).then(response => {
-      this.user = response.body
-    }, response => {
-      // code:
+  mounted: function () {
+    this.$nextTick(function () {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+          window.location.href = '/'
+        }
+      })
+      let currentUser = firebase.auth().currentUser
+      if (currentUser) {
+        this.user = currentUser
+      }
     })
   }
 }

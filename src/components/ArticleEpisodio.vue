@@ -17,13 +17,13 @@ export default {
 
 <style lang="scss" scoped>
 	.article_post {
-		width: calc(50% - 10px);
-		margin: 0 10px 40px 0;
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: center;
+		width: 100%;
+		display: inline-block;
+		margin: 0 0 10px 0;
+		color: black;
+		height: 200px;
+		overflow: hidden;
 	}
-
 	.article_post:hover * {
 		color: white;
 	}
@@ -37,7 +37,7 @@ export default {
 
 	.article_post__capa {
 		width: 100%;
-		height: 170px;
+		height: 120px;
 		margin: 0 0 10px 0;
 		overflow: hidden;
 		display: block;
@@ -45,12 +45,5 @@ export default {
 
 	.article_post__capa img {
 		width: 100%;
-	}
-
-	@media (min-width: 768px) {
-		.article_post {
-			width: calc(25% - 10px);
-			margin: 0 10px 40px 0;
-		}
 	}
 </style>

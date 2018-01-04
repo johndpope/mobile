@@ -1,10 +1,9 @@
 <template lang="html">
     <div>
-        <MenuHeader></MenuHeader>
         <div class="container">
           <input type="search" name="search_text" v-model="buscaTexto" @focus="clearInput" @keyup="busca">
           <h2> {{ buscaStatus }}</h2>
-          <div class="container__row">
+          <div class="columns-5">
             <ArticlePost
               v-for="(post, index) in posts"
               :item="post"
@@ -25,7 +24,6 @@
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
-import MenuHeader from '@/components/MenuHeader.vue'
 import ArticlePost from '@/components/ArticlePost.vue'
 export default {
   props: {
@@ -44,7 +42,6 @@ export default {
     }
   },
   components: {
-    'MenuHeader': MenuHeader,
     'ArticlePost': ArticlePost,
     'InfiniteLoading': InfiniteLoading
   },

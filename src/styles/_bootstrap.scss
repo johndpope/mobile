@@ -1,9 +1,39 @@
+h2 {
+	margin: 20px 0 10px 0;
+	text-transform: uppercase;
+	color: $color-h2;
+}
+
+h3 {
+	margin: 20px 0 10px 0;
+	text-transform: uppercase;
+	color: $color-h3;
+}
+
 .container {
 	width: calc(100% - 20px);
 	max-width: 992px;
 	margin: 0 auto;
-	padding: 0 10px;
 }
+
+div[class^='columns-'] {
+	width: 100%;
+	column-width: 130px;
+	break-inside: avoid-column;
+}
+
+.columns-1 { column-count: 1 }
+.columns-2 { column-count: 2 }
+.columns-3 { column-count: 3 }
+.columns-4 { column-count: 4 }
+.columns-5 { column-count: 5 }
+.columns-6 { column-count: 6 }
+.columns-7 { column-count: 7 }
+.columns-8 { column-count: 8 }
+.columns-9 { column-count: 9 }
+.columns-10 { column-count: 10 }
+.columns-11 { column-count: 11 }
+.columns-12 { column-count: 12 }
 
 hr.white {
 	border: none;
@@ -56,4 +86,57 @@ hr.black {
 .row-buttons {}
 .row-buttons .btn + .btn {
 	margin-left: 5px;
+}
+
+
+// forms
+.form-group {
+  display: flex;
+  flex-flow: column;
+}
+
+.form-group + .form-group {
+  margin-top: 10px;
+}
+
+.form-group > label {
+  margin-bottom: 5px;
+}
+
+.form-group input[type='text'],
+.form-group input[type='password'],
+.form-group input[type='email'] {
+	border-radius: 5px;
+	border: 2px solid #ECE2E2;
+	height: 32px;
+	font-size: 14px;
+	padding: 0 10px;
+}
+
+.label-check-title {
+  position: relative;
+  padding-right: 20px;
+}
+
+.label-check-title:before {
+  font-family: 'FontAwesome';
+  position: absolute;
+  right: 0; top: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+}
+
+.label-check-input:checked ~ .label-check-title:before {
+  content: '\f00c';
+}
+
+.label-check-input {
+  display: none;
+}
+
+// cards
+.card {
+	background-color: white;
+	padding: 10px;
 }

@@ -1,6 +1,5 @@
 <template lang="html">
 	<div>
-    <MenuHeader></MenuHeader>
 
     <div class="container">
       <Player :src="episodioAtual.url" :poster="post.imagem"></Player>
@@ -56,7 +55,6 @@
 </template>
 
 <script>
-import MenuHeader from '@/components/MenuHeader.vue'
 import Player from '@/components/Player.vue'
 export default {
   props: {
@@ -70,7 +68,6 @@ export default {
     }
   },
   components: {
-    'MenuHeader': MenuHeader,
     'Player': Player
   },
   data () {
@@ -109,8 +106,8 @@ export default {
 
         // [for-update] configurações do usuário
         this.setEpisodioAtual()
-        this.idiomaSelecionado = (this.idiomaSelecionado === '') ? this.episodios[0].idioma : this.idiomaSelecionado
-        this.definirTemporada((this.temporadaSelecionada === '') ? this.episodios[0].tipo : this.temporadaSelecionada)
+        this.idiomaSelecionado = (this.idiomaSelecionado === '') ? this.episodioAtual.idioma : this.idiomaSelecionado
+        this.definirTemporada(this.idiomaSelecionado)
       }, response => {
         // code:
       })
@@ -137,6 +134,7 @@ export default {
         // set currentEpisodio
         if (self.ep === '' || parseInt(episodio.id) === parseInt(self.ep)) {
           self.episodioAtual = episodio
+          console.log(self.episodioAtual)
           self.episodioAtual.url = self.randomCDN(self.episodioAtual.url)
         }
       })
@@ -156,6 +154,8 @@ export default {
     }
   },
   created () {
+    document.body.scrollTop = 0 // For Safari
+    document.documentElement.scrollTop = 0 // All
     this.fetchPost()
   }
 }

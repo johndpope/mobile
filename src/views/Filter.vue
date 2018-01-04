@@ -1,9 +1,9 @@
 <template lang="html">
     <div>
-        <MenuHeader></MenuHeader>
         <div class="container">
-          <h2> {{ buscaStatus }} {{ posts.length }}</h2>
-          <div class="container__row">
+          <h2>{{ chave }}: {{ valor }}</h2>
+          <h3> {{ buscaStatus }} {{ posts.length }}</h3>
+          <div class="columns-5">
             <ArticlePost
               v-for="(post, index) in posts"
               :item="post"
@@ -23,7 +23,6 @@
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
-import MenuHeader from '@/components/MenuHeader.vue'
 import ArticlePost from '@/components/ArticlePost.vue'
 export default {
   props: {
@@ -44,7 +43,6 @@ export default {
     }
   },
   components: {
-    'MenuHeader': MenuHeader,
     'ArticlePost': ArticlePost,
     'InfiniteLoading': InfiniteLoading
   },
@@ -104,25 +102,4 @@ export default {
     padding: 13px 30px;
     border-radius: 4px;
   }
-
-  h2 {
-    margin: 20px 0 10px 0;
-    text-transform: uppercase;
-    color: #DADCDD;
-  }
-
-  .container {
-    width: calc(100% - 10px);
-    max-width: 992px;
-    margin: 0 auto;
-    padding: 0 10px;
-  }
-
-  .container__row {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-
 </style>

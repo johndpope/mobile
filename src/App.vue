@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <MenuHeader></MenuHeader>
     <transition name="fade" mode="in-out">
       <router-view/>
     </transition>
@@ -7,8 +8,12 @@
 </template>
 
 <script>
+import MenuHeader from '@/components/MenuHeader.vue'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    'MenuHeader': MenuHeader
+  }
   // watch: {
   //   '$route': function (to, from, next) {
   //     const toDepth = to.path.split('/').length

@@ -11,22 +11,18 @@
 <script>
 export default {
   name: 'ArticlePost',
-  props: ['item', 'personalize'],
-  created () {
-
-  }
+  props: ['item', 'personalize']
 }
 </script>
 
 <style lang="scss" scoped>
 	.article_post {
-		width: calc(50% - 10px);
-		margin: 0 10px 10px 0;
+		width: 100%;
+		display: inline-block;
+		margin: 0 0 10px 0;
 		color: black;
-		height: 190px;
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: center;
+		height: 200px;
+		overflow: hidden;
 	}
 
 	.article_post.full {
@@ -49,7 +45,7 @@ export default {
 
 	.article_post__capa {
 		width: 100%;
-		height: 130px;
+		height: 120px;
 		margin: 0 0 10px 0;
 		overflow: hidden;
 		display: block;
@@ -60,9 +56,4 @@ export default {
 		margin-top: -25%;
 	}
 
-	@media (min-width: 768px) {
-		.article_post {
-			width: calc(25% - 10px);
-		}
-	}
 </style>
