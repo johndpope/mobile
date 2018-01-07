@@ -57,12 +57,12 @@
     			<label for="password">Senha</label>
     			<input type="password" name="password" id="password" v-model="user_.password">
     		</div>
-    		<div class="form-group">
+    		<!-- <div class="form-group">
     			<label class="label-check" for="lembrarUser">
     				<input class="label-check-input" type="checkbox" name="lembrarUser" id="lembrarUser" v-model="lembrarUser">
     				<span class="label-check-title">Salvar sessão</span>
     			</label>
-    		</div>
+    		</div> -->
     	</div>
       <div slot="footer">
         <button type="button" class="modal-cancel-button" @click="showModalLogin = false">

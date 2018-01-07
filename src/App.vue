@@ -4,15 +4,18 @@
     <transition name="fade" mode="in-out">
       <router-view/>
     </transition>
+    <flash-message></flash-message>
   </div>
 </template>
 
 <script>
 import MenuHeader from '@/components/MenuHeader.vue'
+import FlashMessage from '@/components/FlashMessage.vue'
 export default {
   name: 'app',
   components: {
-    'MenuHeader': MenuHeader
+    'MenuHeader': MenuHeader,
+    'FlashMessage': FlashMessage
   }
   // watch: {
   //   '$route': function (to, from, next) {

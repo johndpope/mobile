@@ -74,21 +74,17 @@ export default {
     submitForm: function () {
       // let formData = new FormData(event.target)
       let user = firebase.auth().currentUser
+      let self = this
       user.updateProfile({
         displayName: this.user.displayName
       }).then(function () {
-        this.relogar()
+        self.$flash.push({ message: `Dados de ${self.user.displayName} atualizado`, className: 'success' })
       }).catch(function (error) {
-        console.error(error)
+        self.$flash.push({ message: error, className: 'error' })
       })
     },
     relogar: function () {
-      let user = firebase.auth().currentUser
-      user.reauthenticateWithCredential(this.user.email, this.user.password).then(function () {
-        this.user = user
-      }).catch(function (error) {
-        console.error(error)
-      })
+      this.user = firebase.auth().currentUser
     }
   },
   mounted: function () {

@@ -11,7 +11,7 @@ import router from './router'
 // CSS
 import 'font-awesome/css/font-awesome.css'
 import 'animate.css/animate.css'
-import 'video.js/dist/video-js.css'
+import 'video.js/dist/video-js.min.css'
 
 Raven.config('https://6983beb5db044cb39ac2419e6faff729@sentry.io/263729').addPlugin(RavenVue, Vue).install()
 
@@ -38,6 +38,8 @@ Vue.prototype.$config = config.local
 Vue.prototype.$api = function (req) {
   return this.$config.api + req
 }
+
+Vue.prototype.$flash = []
 
 /* eslint-disable no-new */
 new Vue({

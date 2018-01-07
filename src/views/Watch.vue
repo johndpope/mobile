@@ -42,7 +42,7 @@
       </div>
 
       <nav class="lista">
-          <router-link :class="{ 'active': ep == episodio.id }" class="episodio" v-for="episodio in episodiosFiltrado" v-if="episodio.idioma == idiomaSelecionado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
+          <router-link :class="{ 'active': ep == episodio.id }" class="episodio" v-for="episodio in episodiosFiltrado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
             <i class="fa fa-play-circle"></i>
             <div class="episodio-info">
               <h4>{{ episodio.titulo }}</h4>
@@ -80,8 +80,8 @@ export default {
       exibirListaTemporadas: false,
       temporadaSelecionada: '',
       temporadas: [],
-      episodios: {},
-      episodiosFiltrado: {},
+      episodios: [],
+      episodiosFiltrado: [],
       idiomas: [],
       idiomaSelecionado: '',
       episodioAtual: {
@@ -106,8 +106,6 @@ export default {
 
         // [for-update] configurações do usuário
         this.setEpisodioAtual()
-        this.idiomaSelecionado = (this.idiomaSelecionado === '') ? this.episodioAtual.idioma : this.idiomaSelecionado
-        this.definirTemporada(this.idiomaSelecionado)
       }, response => {
         // code:
       })
@@ -132,16 +130,17 @@ export default {
           self.idiomas.push(episodio.idioma)
         }
         // set currentEpisodio
-        if (self.ep === '' || parseInt(episodio.id) === parseInt(self.ep)) {
+        if ((typeof self.ep === 'undefined' && key === 0) || (parseInt(episodio.id) === parseInt(self.ep))) {
           self.episodioAtual = episodio
-          console.log(self.episodioAtual)
           self.episodioAtual.url = self.randomCDN(self.episodioAtual.url)
+          self.idiomaSelecionado = self.episodioAtual.idioma
+          self.definirTemporada(self.episodioAtual.tipo)
         }
       })
     },
     randomCDN: function (url) {
       let rand = Math.floor(Math.random() * 2) + 1
-      return url.replace(url.substr(url.indexOf('cdn'), 4), `cdn${rand}`).replace('https', 'http')
+      return url.replace(url.substr(url.indexOf('cdn'), 4), `cdn${rand}`).replace('https:', window.location.protocol)
     }
   },
   watch: {
