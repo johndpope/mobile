@@ -54,9 +54,23 @@
         </button>
       </div>
       <div slot="body">
-    		<div class="btn-google-login" @click.prevent="conectarGoogle()" alt="Login com Google">
+    		<div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" v-model="user_.email">
+        </div>
+    		<div class="form-group">
+          <label for="password">Email</label>
+          <input type="password" name="password" id="password" v-model="user_.password">
         </div>
     	</div>
+      <div slot="footer">
+        <button type="button" class="modal-default-button" @click.prevent="criarConta()">
+          Criar conta (email e senha)
+        </button>
+        <button type="button" class="modal-success-button" @click.prevent="conectar()">
+          Entrar
+        </button>
+      </div>
     </ModalLogin>
 	</div>
 </template>
