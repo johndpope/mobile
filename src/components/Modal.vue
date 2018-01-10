@@ -49,6 +49,7 @@ export default {
 }
 
 .modal-container {
+  position: relative;
   width: calc(100% - 80px);
   max-width: 992px;
   margin: 0px auto;
@@ -85,6 +86,14 @@ export default {
 }
 .modal-cancel-button {
   @include button();
+  color: white;
+  background-color: $color-red;
+}
+
+.modal-close-button {
+  @include button();
+  position: absolute;
+  top: 10px; right: 10px;
   color: white;
   background-color: $color-red;
 }

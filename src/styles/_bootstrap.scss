@@ -83,6 +83,29 @@ hr.black {
 	@include button;
 }
 
+.btn-google-login {
+	margin-left: auto;
+	margin-right: auto;
+	width: 382px;
+	height: 92px;
+	overflow: hidden;
+	background-image: url('/static/img/google/btn_google_signin_dark_normal_web@2x.png');
+	background-repeat: no-repeat;
+	// background-size: cover;
+	background-position: center center;
+	cursor: pointer;
+	transition: .2s ease-in-out all;
+}
+
+.btn-google-login:hover {
+	background-image: url('/static/img/google/btn_google_signin_dark_pressed_web@2x.png');
+}
+
+.btn-google-login:focus,
+.btn-google-login:active {
+	background-image: url('/static/img/google/btn_google_signin_dark_focus_web@2x.png');
+}
+
 .row-buttons {}
 .row-buttons .btn + .btn {
 	margin-left: 5px;

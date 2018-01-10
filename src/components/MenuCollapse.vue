@@ -48,33 +48,15 @@
       </div>
     </ModalLogin>
     <ModalLogin v-if="showModalLogin">
-      <div slot="body">
-    		<div class="form-group">
-    			<label for="email">Email</label>
-    			<input type="email" name="email" id="email" v-model="user_.email">
-    		</div>
-    		<div class="form-group">
-    			<label for="password">Senha</label>
-    			<input type="password" name="password" id="password" v-model="user_.password">
-    		</div>
-    		<!-- <div class="form-group">
-    			<label class="label-check" for="lembrarUser">
-    				<input class="label-check-input" type="checkbox" name="lembrarUser" id="lembrarUser" v-model="lembrarUser">
-    				<span class="label-check-title">Salvar sessão</span>
-    			</label>
-    		</div> -->
-    	</div>
-      <div slot="footer">
-        <button type="button" class="modal-cancel-button" @click="showModalLogin = false">
-          Cancelar
-        </button>
-        <button type="button" class="modal-default-button" @click.prevent="criarConta()">
-          Criar conta
-        </button>
-        <button type="button" class="modal-success-button" @click.prevent="conectar()">
-          Entrar
+      <div slot="header">
+        <button class="modal-close-button" @click="showModalLogin = false">
+          <i class="fa fa-close"></i>
         </button>
       </div>
+      <div slot="body">
+    		<div class="btn-google-login" @click.prevent="conectarGoogle()" alt="Login com Google">
+        </div>
+    	</div>
     </ModalLogin>
 	</div>
 </template>
@@ -117,15 +99,31 @@ export default {
         self.$emit('closeMenuCollapse', false)
       } else {
         self.userLogado = false
+        self.$emit('closeMenuCollapse', false)
       }
     })
   },
   methods: {
     conectar: function () {
-      firebase.auth().signInWithEmailAndPassword(this.user_.email, this.user_.password).catch(function (error) {
+      let self = this
+      firebase.auth().signInWithEmailAndPassword(this.user_.email, this.user_.password).then(function (result) {
+        self.$flash.push({message: `${self.userLogado.displayName} conectado`, className: 'info'})
+      }).catch(function (error) {
         // Handle Errors here.
+        self.$flash.push({message: `Falha ao conectar`, className: 'error'})
         console.error(error.code)
         console.warn(error.message)
+      })
+    },
+    conectarGoogle: function () {
+      let provider = new firebase.auth.GoogleAuthProvider()
+      let self = this
+      firebase.auth().signInWithPopup(provider).then(function (result) {
+        // var token = result.credential.accessToken
+        self.userLogado = result.user
+        self.$flash.push({message: `${self.userLogado.displayName} conectado`, className: 'info'})
+      }).catch(function (error) {
+        console.error(error)
       })
     },
     desconectar: function () {
