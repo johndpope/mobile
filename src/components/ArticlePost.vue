@@ -17,9 +17,6 @@ export default {
 
 <style lang="scss" scoped>
 	.article_post {
-		width: 100%;
-		display: inline-block;
-		margin: 0 0 10px 0;
 		color: black;
 		height: 200px;
 		overflow: hidden;

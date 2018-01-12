@@ -13,15 +13,15 @@
           <div v-if="exibirInfoPost">
             <p>{{ post.descricao }}</p>
             <p class="info-post--generos">
-              <span class="info-post--generos--genero" v-for="genero in post.generos.split(',')">
+              <router-link :to="{ name: 'Filter', params: { chave: 'genero', valor: genero } }" :key="genero.id" class="info-post--generos--genero" v-for="genero in post.generos.split(',')">
                 {{ genero }}
-              </span>
+              </router-link>
             </p>
           </div>
         </transition>
       </div>
 
-      <div class="seletor-temporada">
+      <div v-if="temporadas.length" class="seletor-temporada">
         <button class="seletor-temporada-atual" @click="exibirListaTemporadas = !exibirListaTemporadas">
           <i class="fa fa-angle-right"></i>
           {{ temporadaSelecionada }}
@@ -35,20 +35,23 @@
         </transition>
       </div>
 
-      <div class="row-buttons">
+      <div v-if="idiomas.length" class="row-buttons">
         <button v-for="idioma in idiomas" @click="idiomaSelecionado = idioma" :class="{ 'active': idioma == idiomaSelecionado }" class="btn default">
           {{ idioma }}
         </button>
       </div>
 
-      <nav class="lista">
-          <router-link :class="{ 'active': ep == episodio.id }" class="episodio" v-for="episodio in episodiosFiltrado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
-            <i class="fa fa-play-circle"></i>
-            <div class="episodio-info">
-              <h4>{{ episodio.titulo }}</h4>
-            </div>
-          </router-link>
+      <nav v-if="episodios.length" class="lista">
+        <router-link :class="{ 'active': ep == episodio.id }" class="episodio" v-for="episodio in episodiosFiltrado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
+          <i class="fa fa-play-circle"></i>
+          <div class="episodio-info">
+            <h4>{{ episodio.titulo }}</h4>
+          </div>
+        </router-link>
       </nav>
+
+      <h2 v-if="episodios.length == 0">Nada ainda :(</h2>
+
     </div>
 
 	</div>
@@ -104,8 +107,9 @@ export default {
       this.$http.get(this.$api(`episodios/lista/${this.post.id}`)).then(response => {
         this.episodios = response.body
 
-        // [for-update] configurações do usuário
-        this.setEpisodioAtual()
+        if (this.episodios.length) {
+          this.setEpisodioAtual()
+        }
       }, response => {
         // code:
       })
@@ -113,12 +117,14 @@ export default {
     fetchPost: function () {
       this.$http.get(this.$api(`posts/view/${this.slug}`)).then(response => {
         this.post = response.body
+        this.post.imagem = (this.post.imagem === 'https://www.animesgo.net/upload/image/') ? '//animesgo.net/img/animesgo-image.png' : this.post.imagem
         this.fetchEpisodios()
       }, response => {
         // code:
       })
     },
     setEpisodioAtual: function () {
+      // [for-update] configurações do usuário
       let self = this
       this.episodios.map(function (episodio, key) {
         // get temporadas
@@ -259,6 +265,12 @@ export default {
   background-color: rgba(255,255,255,.1);
   display: inline-block;
   margin: 0 5px 5px 0;
+  text-decoration: none;
+  color: white;
+}
+
+.info-post--generos--genero:hover {
+  background-color: rgba(0,0,85,1);
 }
 
 .lista {
