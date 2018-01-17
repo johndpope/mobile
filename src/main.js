@@ -5,6 +5,7 @@ import VueAnalytics from 'vue-analytics'
 import VueFire from 'vuefire'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
+import sha1 from 'sha1'
 import App from './App'
 import router from './router'
 
@@ -34,12 +35,15 @@ var config = {
     wb_avatar: '//www.animesgo.net/upload/image/user/'
   }
 }
-Vue.prototype.$config = config.prod
+Vue.prototype.$config = config.local
 Vue.prototype.$api = function (req) {
   return this.$config.api + req
 }
+Vue.prototype.$userLogado = false
 
 Vue.prototype.$flash = []
+
+console.log('use this: ' + sha1('use this'))
 
 /* eslint-disable no-new */
 new Vue({

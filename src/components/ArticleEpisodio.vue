@@ -1,7 +1,7 @@
 <template lang="html">
 	<router-link :to="`/watch/${item.parent.slug}/${item.id}`" class="article_post">
 		<span class="article_post__capa">
-			<img :src="capa" :alt="item.titulo">
+			<img :src="item.parent.capa" :alt="item.titulo">
 		</span>
 		<h4>{{ item.titulo }}</h4>
 		<h5>{{ item.parent.titulo }}</h5>
@@ -11,14 +11,7 @@
 <script>
 export default {
   name: 'ArticlePost',
-  props: ['item'],
-  computed: {
-    capa: function () {
-      const arr = this.item.parent.capa.split('/')
-      const filename = arr[5].split('.')[0]
-      return `${arr[0]}//${arr[2]}/${arr[3]}/${arr[4]}/compress/${filename}.jpg`
-    }
-  }
+  props: ['item']
 }
 </script>
 

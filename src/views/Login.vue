@@ -1,21 +1,23 @@
 <template lang="html">
-	<form class="card container" action="index.html" method="post">
-		<div class="form-group">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email" v-model="email">
-		</div>
-		<div class="form-group">
-			<label for="password">Senha</label>
-			<input type="password" name="password" id="password" v-model="password">
-		</div>
-		<div class="form-group">
-			<label class="label-check" for="lembrarUser">
-				<input class="label-check-input" type="checkbox" name="lembrarUser" id="lembrarUser" v-model="lembrarUser">
-				<span class="label-check-title">Lembrar</span>
-			</label>
-			<button class="btn success" type="submit" name="login">Login</button>
-		</div>
-	</form>
+	<div class="card-default">
+		<form action="index.html" method="post" @submit.prevent="login">
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email" v-model="user.email">
+			</div>
+			<div class="form-group">
+				<label for="password">Senha</label>
+				<input type="password" name="password" id="password" v-model="user.password">
+			</div>
+			<div class="form-group">
+				<!-- <label class="label-check" for="lembrarUser">
+					<input class="label-check-input" type="checkbox" name="lembrarUser" id="lembrarUser" v-model="lembrarUser">
+					<span class="label-check-title">Lembrar</span>
+				</label> -->
+			</div>
+			<button class="btn info" type="submit" name="login">Login</button>
+		</form>
+	</div>
 </template>
 
 <script>
@@ -23,13 +25,36 @@ export default {
   name: 'Login',
   data () {
     return {
-      email: '',
-      password: '',
-      lembrarUser: false
+      user: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  mounted () {
+    alert(this.sha1('teste'))
+  },
+  methods: {
+    login: function () {
+      let self = this
+      this.$http.get(this.$api(`user/view/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
+        console.log(response)
+        self.$userLogado = response
+        self.$flash.push({message: `Usuário conectado`, className: 'info'})
+      }, response => {
+        console.log(response)
+        self.$flash.push({message: `Falha ao conectar`, className: 'error'})
+      })
     }
   }
 }
 </script>
 
 <style lang="scss">
+
+.card-default {
+	max-width: 400px;
+	margin: 20px auto;
+}
+
 </style>
