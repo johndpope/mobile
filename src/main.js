@@ -5,7 +5,6 @@ import VueAnalytics from 'vue-analytics'
 import VueFire from 'vuefire'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
-import sha1 from 'sha1'
 import App from './App'
 import router from './router'
 
@@ -42,8 +41,6 @@ Vue.prototype.$api = function (req) {
 Vue.prototype.$userLogado = false
 
 Vue.prototype.$flash = []
-
-console.log('use this: ' + sha1('use this'))
 
 /* eslint-disable no-new */
 new Vue({

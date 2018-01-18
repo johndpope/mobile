@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import sha1 from 'sha1'
+
 export default {
   name: 'Login',
   data () {
@@ -38,12 +40,14 @@ export default {
     login: function () {
       let self = this
       this.$http.get(this.$api(`user/view/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
-        console.log(response)
         self.$userLogado = response
         self.$flash.push({message: `Usuário conectado`, className: 'info'})
       }, response => {
-        console.log(response)
-        self.$flash.push({message: `Falha ao conectar`, className: 'error'})
+        if (response.status !== 404) {
+          self.$flash.push({message: `Falha ao conectar`, className: 'error'})
+        } else {
+          self.$flash.push({message: `Conta não encontrada`, className: 'info'})
+        }
       })
     }
   }
