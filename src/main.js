@@ -5,6 +5,7 @@ import VueAnalytics from 'vue-analytics'
 import VueFire from 'vuefire'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
+import VueLocalStorage from 'vue-ls'
 import App from './App'
 import router from './router'
 
@@ -20,6 +21,7 @@ Vue.use(VueResource)
 Vue.use(VueVideoPlayer)
 Vue.use(VueFire)
 Vue.use(VueAnalytics, {id: 'UA-106829297-3'})
+Vue.use(VueLocalStorage, {namespace: 'ag__'})
 
 Vue.config.productionTip = false
 var config = {
@@ -38,7 +40,6 @@ Vue.prototype.$config = config.local
 Vue.prototype.$api = function (req) {
   return this.$config.api + req
 }
-Vue.prototype.$userLogado = false
 
 Vue.prototype.$flash = []
 

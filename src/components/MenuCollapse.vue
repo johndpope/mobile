@@ -56,11 +56,11 @@
       <div slot="body">
     		<div class="form-group">
           <label for="email">Email</label>
-          <input type="email" name="email" id="email" v-model="user_.email">
+          <input type="email" name="email" id="email" v-model="user.email">
         </div>
     		<div class="form-group">
           <label for="password">Email</label>
-          <input type="password" name="password" id="password" v-model="user_.password">
+          <input type="password" name="password" id="password" v-model="user.password">
         </div>
     	</div>
       <div slot="footer">
@@ -76,8 +76,9 @@
 </template>
 
 <script>
-import firebase from '@/firebase.js'
+import sha1 from 'sha1'
 import Modal from '@/components/Modal.vue'
+
 export default {
   name: 'MenuCollapse',
   props: ['showMenu'],
@@ -87,12 +88,10 @@ export default {
   data () {
     return {
       lembrarUser: false,
-      userLogado: false,
-      user_: {
+      user: {
         email: '',
         password: ''
       },
-      users: {},
       showModalLogin: false,
       showModalLogout: false,
       showDropdown: {
@@ -103,57 +102,33 @@ export default {
       }
     }
   },
+  computed: {
+    userLogado: function () {
+      return this.$ls.get('user', false) || false
+    }
+  },
   mounted () {
     this.fetchGeneros()
-    let self = this
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        self.userLogado = user
-        self.showModalLogin = false
-        self.$emit('closeMenuCollapse', false)
-      } else {
-        self.userLogado = false
-        self.$emit('closeMenuCollapse', false)
-      }
-    })
   },
   methods: {
     conectar: function () {
       let self = this
-      firebase.auth().signInWithEmailAndPassword(this.user_.email, this.user_.password).then(function (result) {
-        self.$flash.push({message: `${self.userLogado.displayName} conectado`, className: 'info'})
-      }).catch(function (error) {
-        // Handle Errors here.
-        self.$flash.push({message: `Falha ao conectar`, className: 'error'})
-        console.error(error.code)
-        console.warn(error.message)
-      })
-    },
-    conectarGoogle: function () {
-      let provider = new firebase.auth.GoogleAuthProvider()
-      let self = this
-      firebase.auth().signInWithPopup(provider).then(function (result) {
-        // var token = result.credential.accessToken
-        self.userLogado = result.user
-        self.$flash.push({message: `${self.userLogado.displayName} conectado`, className: 'info'})
-      }).catch(function (error) {
-        console.error(error)
+      this.$http.get(this.$api(`user/login/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
+        self.$ls.set('user', response.body)
+        self.showModalLogin = false
+        self.$emit('closeMenuCollapse')
+        self.$flash.push({message: `${response.body.username} conectou`, className: 'info'})
+        return true
+      }, response => {
+        if (response.status !== 404) self.$flash.push({message: `Falha ao conectar`, className: 'error'})
+        else self.$flash.push({message: `Conta não encontrada`, className: 'info'})
       })
     },
     desconectar: function () {
-      let self = this
-      firebase.auth().signOut().then(function () {
-        self.showModalLogout = false
-      }).catch(function (error) {
-        console.error(error)
-      })
-    },
-    criarConta: function () {
-      firebase.auth().createUserWithEmailAndPassword(this.user_.email, this.user_.password).catch(function (error) {
-        // Handle Errors here.
-        console.error(error.code)
-        console.warn(error.message)
-      })
+      this.$ls.remove('user')
+      this.$flash.push({message: `Usuário desconectado`, className: 'info'})
+      this.showModalLogout = false
+      this.$emit('closeMenuCollapse')
     },
     dropDown: function (name) {
       this.showDropdown[name] = !this.showDropdown[name]

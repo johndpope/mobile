@@ -33,15 +33,18 @@ export default {
       }
     }
   },
-  mounted () {
-    alert(this.sha1('teste'))
+  beforeCreate () {
+    if (this.$ls.get('user', false) !== false) {
+      this.$router.push({name: 'Timeline'})
+    }
   },
   methods: {
     login: function () {
       let self = this
-      this.$http.get(this.$api(`user/view/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
-        self.$userLogado = response
+      this.$http.get(this.$api(`user/login/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
+        self.$ls.set('user', response.body)
         self.$flash.push({message: `Usuário conectado`, className: 'info'})
+        return true
       }, response => {
         if (response.status !== 404) {
           self.$flash.push({message: `Falha ao conectar`, className: 'error'})
@@ -49,6 +52,7 @@ export default {
           self.$flash.push({message: `Conta não encontrada`, className: 'info'})
         }
       })
+      self.$ls.set('user', false)
     }
   }
 }

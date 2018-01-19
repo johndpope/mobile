@@ -29,7 +29,7 @@ export default {
 .alert-container {
   position: fixed;
   left: 20px;
-  bottom: 20px;
+  bottom: 30px;
   transition: .3s ease-in-out all;
 }
 

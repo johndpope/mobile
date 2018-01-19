@@ -2,7 +2,7 @@
   <div>
     <nav class="menu__header">
       <a href="#" @click.prevent="showMenuCollapse = !showMenuCollapse" class="menu__header__button">
-        <i class="fa fa-bars"></i>
+        <i class="fa" :class="{ 'fa-times': showMenuCollapse, 'fa-bars': !showMenuCollapse }"></i>
       </a>
       <Brand></Brand>
       <router-link to="/search" class="menu__header__button">
@@ -10,7 +10,7 @@
       </router-link>
     </nav>
     <transition name="slide-left" mode="in-out">
-      <MenuCollapse v-if="showMenuCollapse"></MenuCollapse>
+      <MenuCollapse @closeMenuCollapse="closeMenuCollapse()" v-if="showMenuCollapse"></MenuCollapse>
     </transition>
   </div>
 </template>
