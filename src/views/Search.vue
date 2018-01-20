@@ -12,6 +12,7 @@
               :key="post.id">
             </ArticlePost>
           </div>
+          <ad-banner/>
         </div>
         <div class="container" v-if="posts.length > 1">
           <InfiniteLoading @infinite="infiniteHandler" ref="infiniteLoading" spinner="spiral">
@@ -25,6 +26,8 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import ArticlePost from '@/components/ArticlePost.vue'
+import AdBanner300x100 from '@/components/AdBanner300x100.vue'
+
 export default {
   props: {
     cmd: {
@@ -43,7 +46,8 @@ export default {
   },
   components: {
     'ArticlePost': ArticlePost,
-    'InfiniteLoading': InfiniteLoading
+    'InfiniteLoading': InfiniteLoading,
+    'ad-banner': AdBanner300x100
   },
   methods: {
     busca: function () {

@@ -6,7 +6,7 @@ import Search from '@/views/Search'
 import Filter from '@/views/Filter'
 import Lista from '@/views/Lista'
 import Conta from '@/views/Conta'
-import Login from '@/views/Login'
+import CriarConta from '@/views/CriarConta'
 
 import Watch from '@/views/Watch'
 
@@ -48,9 +48,9 @@ export default new Router({
       component: Conta
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/criar-conta',
+      name: 'Criar conta',
+      component: CriarConta
     },
     {
       path: '/watch/:slug',

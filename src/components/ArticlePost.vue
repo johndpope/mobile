@@ -22,10 +22,6 @@ export default {
 		overflow: hidden;
 	}
 
-	.article_post.full {
-		width: 100%;
-	}
-
 	.article_post:hover * {
 		color: white;
 	}

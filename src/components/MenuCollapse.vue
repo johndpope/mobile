@@ -130,6 +130,17 @@ export default {
       this.showModalLogout = false
       this.$emit('closeMenuCollapse')
     },
+    criarConta: function () {
+      let self = this
+      this.$http.get(this.$api(`user/view/${self.user.email}`)).then(response => {
+        self.$flash.push({message: `Email já em uso`, className: 'error'})
+      }, response => {
+        self.$ls.set('usertemp', self.user)
+        self.showModalLogin = false
+        self.$emit('closeMenuCollapse')
+        self.$router.push({name: 'Criar conta'})
+      })
+    },
     dropDown: function (name) {
       this.showDropdown[name] = !this.showDropdown[name]
     },

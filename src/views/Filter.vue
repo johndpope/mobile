@@ -3,6 +3,9 @@
         <div class="container">
           <h2>{{ chave }}: {{ valor }}</h2>
           <h3> {{ buscaStatus }} {{ posts.length }}</h3>
+
+          <ad-banner/>
+
           <div class="columns-5">
             <ArticlePost
               v-for="(post, index) in posts"
@@ -24,6 +27,8 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import ArticlePost from '@/components/ArticlePost.vue'
+import AdBanner300x100 from '@/components/AdBanner300x100.vue'
+
 export default {
   props: {
     chave: {
@@ -44,7 +49,8 @@ export default {
   },
   components: {
     'ArticlePost': ArticlePost,
-    'InfiniteLoading': InfiniteLoading
+    'InfiniteLoading': InfiniteLoading,
+    'ad-banner': AdBanner300x100
   },
   methods: {
     busca: function () {
@@ -101,5 +107,9 @@ export default {
     color: #3E3E3E;
     padding: 13px 30px;
     border-radius: 4px;
+  }
+
+  h3 {
+    margin-bottom: 15px;
   }
 </style>

@@ -1,8 +1,11 @@
 <template lang="html">
     <div>
       <div class="container">
+
+
         <section>
           <h2>Novos episódios</h2>
+          <ad-banner/>
           <div class="columns-4">
             <ArticleEpisodio
               v-for="(episodio, index) in episodios"
@@ -13,6 +16,7 @@
         </section>
         <section>
           <h2>Novos na AnimesGO</h2>
+          <ad-banner/>
           <div class="columns-4">
             <ArticlePost
               v-for="(post, index) in posts"
@@ -29,6 +33,7 @@
 <script>
 import ArticlePost from '@/components/ArticlePost.vue'
 import ArticleEpisodio from '@/components/ArticleEpisodio.vue'
+import AdBanner300x100 from '@/components/AdBanner300x100.vue'
 
 export default {
   data () {
@@ -39,7 +44,8 @@ export default {
   },
   components: {
     'ArticlePost': ArticlePost,
-    'ArticleEpisodio': ArticleEpisodio
+    'ArticleEpisodio': ArticleEpisodio,
+    'ad-banner': AdBanner300x100
   },
   methods: {
     fetchNovosEpisodios: function () {
@@ -70,4 +76,10 @@ export default {
     text-transform: uppercase;
     color: #DADCDD;
   }
+
+  body > iframe {
+    position: fixed;
+    top: 0; right: 0;
+  }
+
 </style>

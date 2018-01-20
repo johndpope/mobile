@@ -16,15 +16,27 @@ export default {
   components: {
     'MenuHeader': MenuHeader,
     'FlashMessage': FlashMessage
+  },
+  computed: {
+    title: function () {
+      return this.$ls.get('route_to')
+    }
+  },
+  head: {
+    title () {
+      return {
+        inner: this.$ls.get('route_to'),
+        separator: '-',
+        complement: this.$config.project_name
+      }
+    }
+  },
+  watch: {
+    '$route': function (to, from, next) {
+      this.$ls.set('route_to', this.$route.name)
+      next()
+    }
   }
-  // watch: {
-  //   '$route': function (to, from, next) {
-  //     const toDepth = to.path.split('/').length
-  //     const fromDepth = from.path.split('/').length
-  //     this.transitionRouter = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-  //     next()
-  //   }
-  // }
 }
 </script>
 
