@@ -21,6 +21,7 @@
     "raven-js": "^3.21.0",
     "sha1": "^1.1.1",
     "vue": "^2.5.2",
+    "vue-acl": "^3.0.4",
     "vue-analytics": "^5.8.0",
     "vue-head": "^2.0.11",
     "vue-infinite-loading": "^2.2.3",

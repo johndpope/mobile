@@ -9,7 +9,7 @@
         <i class="fa fa-search"></i>
       </router-link>
     </nav>
-    <transition name="slide-left" mode="in-out">
+    <transition name="menu-sidebar" mode="in-out">
       <MenuCollapse @closeMenuCollapse="closeMenuCollapse()" v-if="showMenuCollapse"></MenuCollapse>
     </transition>
   </div>

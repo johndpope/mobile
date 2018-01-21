@@ -1,5 +1,5 @@
 <template lang="html">
-	<div>
+	<div id="MenuCollapse">
     <div class="overlay"></div>
 		<nav class="items">
       <router-link :to="{ name: 'Timeline' }">
@@ -156,6 +156,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#MenuCollapse {
+  position: relative;
+}
+
 .overlay {
   position: fixed;
   top: 40px; right: 0; bottom: 0; left: 0;
@@ -164,18 +168,31 @@ export default {
 }
 
 .items {
-  position: fixed;
-  left: 0;
-  top: 40px;
+  position: absolute;
+  top: 0;
   bottom: 0;
+  left: 0;
   overflow-y: auto;
   display: flex;
   flex-flow: column;
   background-color: black;
   padding: 20px 30px;
   width: calc(100% - 120px);
+  height: 100vh;
 	z-index: 1000;
   @include box-shadow(0 0 20px rgba(0,0,0,.6));
+  opacity: 0;
+  animation: items .5s ease-in-out forwards;
+}
+
+@keyframes items {
+  from {
+    transform: translateX(-300px);
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .items a {
@@ -184,7 +201,6 @@ export default {
   display: block;
   line-height: 3;
   padding: 0 20px 0 0;
-  @include transition;
 }
 
 .items a + a {

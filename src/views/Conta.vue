@@ -83,15 +83,28 @@ export default {
   },
   methods: {
     submitForm: function () {
-      console.log('submitForm')
+      let self = this
+      this.$http.post(this.$api(`user/edit/${self.user.id}/?${self.queryString(self.user)}`)).then(response => {
+        this.$flash.push({message: response.bodyText, className: 'info'})
+      }, response => {
+        this.$flash.push({message: 'Falha ao atualizar', className: 'error'})
+      })
     },
     alterarSenha: function () {
-      console.log(this.user)
       if (this.user.password === sha1(this.newPassword.old)) {
         // alterar de fato
       } else {
         this.$flash.push({message: 'Senha atual não confere', className: 'error'})
       }
+    },
+    queryString: function (s) {
+      const FIND = ['"', ':', ',', '{', '}']
+      const REPLACE = ['', '=', '&', '', '']
+      let stringify = JSON.stringify(s)
+      FIND.forEach((value, key) => {
+        stringify = stringify.split(value).join(REPLACE[key])
+      })
+      return stringify
     }
   }
 }
