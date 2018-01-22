@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import Timeline from '@/views/Timeline'
 import Search from '@/views/Search'
 import Filter from '@/views/Filter'
-import Lista from '@/views/Lista'
 import Conta from '@/views/Conta'
 import CriarConta from '@/views/CriarConta'
 
@@ -17,52 +16,71 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Timeline',
-      component: Timeline
+      name: 'Home',
+      component: Timeline,
+      meta: {
+        permission: 'public'
+      }
     },
     {
       path: '/search',
-      name: 'Search',
-      component: Search
+      name: 'Busca',
+      component: Search,
+      meta: {
+        permission: 'public'
+      }
     },
     {
       path: '/search/:cmd',
-      name: 'SearchFilter',
+      name: 'Busca personalizada',
       component: Search,
-      props: true
+      props: true,
+      meta: {
+        permission: 'public'
+      }
     },
     {
       path: '/filter/:chave/:valor',
-      name: 'Filter',
+      name: 'Filtro',
       component: Filter,
-      props: true
-    },
-    {
-      path: '/heart',
-      name: 'Lista',
-      component: Lista
+      props: true,
+      meta: {
+        permission: 'public'
+      }
     },
     {
       path: '/conta',
-      name: 'Conta',
-      component: Conta
+      name: 'Minha conta',
+      component: Conta,
+      meta: {
+        permission: 'client'
+      }
     },
     {
       path: '/criar-conta',
       name: 'Criar conta',
-      component: CriarConta
+      component: CriarConta,
+      meta: {
+        permission: 'public'
+      }
     },
     {
       path: '/watch/:slug',
       name: 'Watch',
       component: Watch,
-      props: true
+      props: true,
+      meta: {
+        permission: 'public'
+      }
     },
     {
       path: '/watch/:slug/:ep',
       name: 'WatchEp',
       component: Watch,
-      props: true
+      props: true,
+      meta: {
+        permission: 'public'
+      }
     }
   ]
 })

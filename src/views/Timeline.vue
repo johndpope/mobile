@@ -1,8 +1,6 @@
 <template lang="html">
     <div>
       <div class="container">
-
-
         <section>
           <h2>Novos episódios</h2>
           <ad-banner/>

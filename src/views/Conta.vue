@@ -85,7 +85,8 @@ export default {
     submitForm: function () {
       let self = this
       this.$http.post(this.$api(`user/edit/${self.user.id}/?${self.queryString(self.user)}`)).then(response => {
-        this.$flash.push({message: response.bodyText, className: 'info'})
+        self.$ls.set('user', self.user)
+        self.$flash.push({message: response.bodyText, className: 'info'})
       }, response => {
         this.$flash.push({message: 'Falha ao atualizar', className: 'error'})
       })

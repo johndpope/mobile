@@ -35,6 +35,14 @@ export default {
       type: String
     }
   },
+  head: {
+    title () {
+      return {
+        inner: this.$route.name,
+        separator: '-'
+      }
+    }
+  },
   data () {
     return {
       buscaStatus: 'Aguardando dados...',

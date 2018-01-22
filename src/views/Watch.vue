@@ -76,6 +76,7 @@ export default {
   data () {
     return {
       post: {
+        titulo: '',
         generos: '',
         imagem: '//animesgo.net/img/animesgo-image.png'
       },
@@ -153,14 +154,10 @@ export default {
     '$route': function (value) {
       if (value.name === 'WatchEp') {
         this.setEpisodioAtual()
-        document.body.scrollTop = 0 // For Safari
-        document.documentElement.scrollTop = 0 // All
       }
     }
   },
-  created () {
-    document.body.scrollTop = 0 // For Safari
-    document.documentElement.scrollTop = 0 // All
+  mounted () {
     this.fetchPost()
   }
 }

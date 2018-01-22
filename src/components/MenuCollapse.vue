@@ -2,32 +2,32 @@
 	<div id="MenuCollapse">
     <div class="overlay"></div>
 		<nav class="items">
-      <router-link :to="{ name: 'Timeline' }">
+      <router-link :to="{ name: 'Home' }">
         <i class="fa fa-home"></i> Início
       </router-link>
       <a href="#" @click="dropDown('generos')">
         <i class="fa fa-random"></i> Gêneros
         <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
           <nav class="items-sub" v-if="showDropdown.generos">
-            <router-link v-for="genero in site.generos" :key="genero.id" :to="{ name: 'Filter', params: {chave: 'genero', valor: (genero.slug != '') ? genero.slug : 'all'} }">
+            <router-link v-for="genero in site.generos" :key="genero.id" :to="{ name: 'Filtro', params: {chave: 'genero', valor: (genero.slug != '') ? genero.slug : 'all'} }">
               <i class="fa fa-play"></i> {{ genero.nome }}
             </router-link>
           </nav>
         </transition>
       </a>
-      <router-link :to="{ name: 'Filter', params: {chave: 'categoria', valor: 'animes'} }">
+      <router-link :to="{ name: 'Filtro', params: {chave: 'categoria', valor: 'animes'} }">
         <i class="fa fa-list"></i> Animes
       </router-link>
-      <router-link :to="{ name: 'Filter', params: {chave: 'categoria', valor: 'desenhos'} }">
+      <router-link :to="{ name: 'Filtro', params: {chave: 'categoria', valor: 'desenhos'} }">
         <i class="fa fa-film"></i> Desenhos
       </router-link>
-      <router-link :to="{ name: 'Filter', params: {chave: 'categoria', valor: 'filmes'} }">
+      <router-link :to="{ name: 'Filtro', params: {chave: 'categoria', valor: 'filmes'} }">
         <i class="fa fa-ticket"></i> Filmes
       </router-link>
       <a v-if="!userLogado" href="#" @click.prevent="showModalLogin = !showModalLogin">
         <i class="fa fa-user-o"></i> Login
       </a>
-      <router-link v-if="userLogado" :to="{ name: 'Conta' }">
+      <router-link v-if="userLogado" :to="{ name: 'Minha conta' }">
         <i class="fa fa-user-o"></i> Minha conta
       </router-link>
       <a v-if="userLogado" href="#" @click.prevent="showModalLogout = !showModalLogout">
@@ -163,7 +163,7 @@ export default {
 .overlay {
   position: fixed;
   top: 40px; right: 0; bottom: 0; left: 0;
-  background-color: rgba(0,0,13,.7);
+  background-color: rgba(0,0,0,.9);
   z-index: 999;
 }
 

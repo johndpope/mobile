@@ -1,11 +1,11 @@
 <template lang="html">
-  <div>
+  <div id="MenuHeader">
     <nav class="menu__header">
       <a href="#" @click.prevent="showMenuCollapse = !showMenuCollapse" class="menu__header__button">
         <i class="fa" :class="{ 'fa-times': showMenuCollapse, 'fa-bars': !showMenuCollapse }"></i>
       </a>
       <Brand></Brand>
-      <router-link to="/search" class="menu__header__button">
+      <router-link :to="{name: 'Busca'}" class="menu__header__button">
         <i class="fa fa-search"></i>
       </router-link>
     </nav>
@@ -40,10 +40,8 @@ export default {
     },
     showMenuCollapse: function () {
       if (this.showMenuCollapse === true) {
-        this.$root.$el.style.height = '100vh'
         this.$root.$el.style.overflow = 'hidden'
       } else {
-        this.$root.$el.style.height = 'auto'
         this.$root.$el.style.overflow = 'auto'
       }
     }
@@ -55,6 +53,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#MenuHeader {
+  position: fixed;
+  top: 0; right: 0; left: 0;
+}
 .menu__header {
   padding: 0 10px;
   background-color: black;

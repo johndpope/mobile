@@ -40,6 +40,13 @@ export default {
       type: String
     }
   },
+  head: {
+    title () {
+      return {
+        inner: this.$router.name
+      }
+    }
+  },
   data () {
     return {
       buscaStatus: 'Aguardando dados...',
