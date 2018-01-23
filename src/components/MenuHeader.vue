@@ -54,6 +54,7 @@ export default {
 
 <style lang="scss" scoped>
 #MenuHeader {
+  z-index: 3000;
   position: fixed;
   top: 0; right: 0; left: 0;
 }

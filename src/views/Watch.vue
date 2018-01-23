@@ -13,7 +13,7 @@
           <div v-if="exibirInfoPost">
             <p>{{ post.descricao }}</p>
             <p class="info-post--generos">
-              <router-link :to="{ name: 'Filter', params: { chave: 'genero', valor: genero } }" :key="genero.id" class="info-post--generos--genero" v-for="genero in post.generos.split(',')">
+              <router-link :to="{ name: 'Filtro', params: { chave: 'genero', valor: genero } }" :key="genero.id" class="info-post--generos--genero" v-for="genero in post.generos.split(',')">
                 {{ genero }}
               </router-link>
             </p>
