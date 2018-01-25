@@ -52,7 +52,22 @@
   opacity: 0;
 }
 
-// fade
+// transition-router-app
+.transition-router-app-enter-active,
+.transition-router-app-leave-active {
+  transition: all .4s;
+}
+
+.transition-router-app-enter {
+  // transform: translateX(-500px);
+  // transition-delay: .6s;
+}
+
+.transition-router-app-leave-active {
+  opacity: 0;
+}
+
+// slideDown
 .slideDown-enter-active,
 .slideDown-leave-active {
   transition: all .7s;

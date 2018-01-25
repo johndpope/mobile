@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <MenuHeader></MenuHeader>
-    <transition name="fade" mode="in-out">
+    <transition name="transition-router-app" mode="in-out">
       <router-view/>
     </transition>
     <flash-message></flash-message>
@@ -27,9 +27,8 @@ export default {
     }
   },
   watch: {
-    '$route': function (value) {
-      document.body.scrollTop = 0 // For Safari
-      document.documentElement.scrollTop = 0 // All
+    '$route': function (to, from, next) {
+      $('html, body').delay(500).animate({ scrollTop: 0 }, { duration: 500 })
     }
   }
 }
@@ -41,6 +40,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 audio,canvas,video{display:inline-block;*display:inline;*zoom:1}
 audio:not([controls]){display:none;height:0}
 [hidden]{display:none}
+html,body{height:100vh}
 html{font-size:80%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
 html,button,input,select,textarea{font-family:sans-serif}
 body{margin:0;background-color:$color-bg-body}
