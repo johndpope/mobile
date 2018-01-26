@@ -12,13 +12,13 @@
               :key="post.id">
             </ArticlePost>
           </div>
-          <ad-banner/>
         </div>
         <div class="container" v-if="posts.length > 1">
           <InfiniteLoading @infinite="infiniteHandler" ref="infiniteLoading" spinner="spiral">
             <h2 slot="no-more">Isso é tudo :)</h2>
             <h2 slot="no-results">¯\_(ツ)_/¯</h2>
           </InfiniteLoading>
+          <ad-banner/>
         </div>
     </div>
 </template>

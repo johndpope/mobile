@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     user: function () {
-      return this.$ls.get('user')
+      return this.$ls.get('user', false)
     }
   },
   methods: {

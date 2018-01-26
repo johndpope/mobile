@@ -3,7 +3,6 @@
       <div class="container">
         <section>
           <h2>Novos episódios</h2>
-          <ad-banner/>
           <div class="columns-4">
             <ArticleEpisodio
               v-for="(episodio, index) in episodios"
@@ -11,10 +10,10 @@
               :index="index"
               :key="episodio.id"></ArticleEpisodio>
           </div>
+          <ad-banner/>
         </section>
         <section>
           <h2>Novos na AnimesGO</h2>
-          <ad-banner/>
           <div class="columns-4">
             <ArticlePost
               v-for="(post, index) in posts"
@@ -22,6 +21,7 @@
               :index="index"
               :key="post.id"></ArticlePost>
           </div>
+          <ad-banner/>
         </section>
       </div>
 

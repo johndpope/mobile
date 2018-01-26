@@ -4,8 +4,6 @@
           <h2>{{ chave }}: {{ valor }}</h2>
           <h3> {{ buscaStatus }} {{ posts.length }}</h3>
 
-          <ad-banner/>
-
           <div class="columns-5">
             <ArticlePost
               v-for="(post, index) in posts"
@@ -20,6 +18,7 @@
             <h2 slot="no-more">Isso é tudo :)</h2>
             <h2 slot="no-results">¯\_(ツ)_/¯</h2>
           </InfiniteLoading>
+          <ad-banner/>
         </div>
     </div>
 </template>
