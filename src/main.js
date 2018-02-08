@@ -24,7 +24,7 @@ Vue.use(VueTouch)
 Vue.use(VueAnalytics, {id: 'UA-106829297-3'})
 Vue.use(VueLocalStorage, {namespace: 'ag__'})
 Vue.use(VueHead)
-Vue.use(Acl, {router: router, init: 'public'})
+Vue.use(Acl, {router: router, init: 'public', fail: '/'})
 
 // API
 var config = {

@@ -108,7 +108,6 @@ export default {
     }
   },
   mounted () {
-    this.access.push('client')
     console.log(this.access)
     this.fetchGeneros()
   },
@@ -117,7 +116,8 @@ export default {
       let self = this
       this.$http.get(this.$api(`user/login/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
         self.$ls.set('user', response.body)
-        self.access = ['client']
+        self.setPermissions(response.body.role)
+        console.log(self.access)
         self.showModalLogin = false
         self.$emit('closeMenuCollapse')
         self.$flash.push({message: `${response.body.username} conectou`, className: 'info'})
@@ -132,6 +132,7 @@ export default {
       this.$flash.push({message: `Usuário desconectado`, className: 'info'})
       this.showModalLogout = false
       this.$emit('closeMenuCollapse')
+      this.setPermissions('public')
       window.location.reload(true)
     },
     criarConta: function () {
@@ -153,6 +154,13 @@ export default {
         this.site.generos = response.body
       }, response => {
         // code
+      })
+    },
+    setPermissions: function (role) {
+      let permission = (role === 'public') ? 'public' : 'client'
+      this.access.push(permission)
+      this.access = this.access.filter((element) => {
+        return element === permission
       })
     }
   }
