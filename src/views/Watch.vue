@@ -9,9 +9,10 @@
         <h2 v-if="episodioAtual.url !== ''">
           <i class="fa fa-fw fa-play"></i> {{ episodioAtual.titulo }} - {{ episodioAtual.idioma }}
         </h2>
-        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
+        <transition name="fade" mode="out-in">
           <div v-if="exibirInfoPost">
             <p>{{ post.descricao }}</p>
+            <ad-banner/>
             <p class="info-post--generos">
               <router-link :to="{ name: 'Filtro', params: { chave: 'genero', valor: genero } }" :key="genero.id" class="info-post--generos--genero" v-for="genero in post.generos.split(',')">
                 {{ genero }}
@@ -50,6 +51,8 @@
         </router-link>
       </nav>
 
+      <ad-banner/>
+
       <h2 v-if="episodios.length == 0">Nada ainda :(</h2>
 
     </div>
@@ -59,6 +62,8 @@
 
 <script>
 import Player from '@/components/Player.vue'
+import AdBanner300x100 from '@/components/AdBanner300x100.vue'
+
 export default {
   props: {
     slug: {
@@ -71,7 +76,8 @@ export default {
     }
   },
   components: {
-    'Player': Player
+    'Player': Player,
+    'ad-banner': AdBanner300x100
   },
   data () {
     return {

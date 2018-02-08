@@ -37,11 +37,11 @@
       <div slot="body">
         <label for="oldpassword">
             <span class="label">Senha atual</span>
-          <input type="password" name="oldpassword" v-model="newPassword.old">
+          <input type="password" name="oldpassword" v-model="user.password">
         </label>
         <label for="oldpassword">
             <span class="label">Nova senha</span>
-          <input type="password" name="oldpassword" v-model="newPassword.new" value="">
+          <input type="password" name="oldpassword" v-model="user.newPassword" value="">
         </label>
       </div>
       <div slot="footer">
@@ -93,7 +93,7 @@ export default {
     },
     alterarSenha: function () {
       if (this.user.password === sha1(this.newPassword.old)) {
-        // alterar de fato
+        alert('q')
       } else {
         this.$flash.push({message: 'Senha atual não confere', className: 'error'})
       }

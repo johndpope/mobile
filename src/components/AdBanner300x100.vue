@@ -53,8 +53,8 @@ span {
 
 .no-ads {
   position: absolute;
-  bottom: -5px;
-  right: 10px;
+  bottom: 20px;
+  right: 20px;
   padding: 10px;
   font-size: 9px;
   color: white;

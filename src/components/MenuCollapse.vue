@@ -108,6 +108,8 @@ export default {
     }
   },
   mounted () {
+    this.access.push('client')
+    console.log(this.access)
     this.fetchGeneros()
   },
   methods: {
@@ -115,6 +117,7 @@ export default {
       let self = this
       this.$http.get(this.$api(`user/login/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
         self.$ls.set('user', response.body)
+        self.access = ['client']
         self.showModalLogin = false
         self.$emit('closeMenuCollapse')
         self.$flash.push({message: `${response.body.username} conectou`, className: 'info'})
@@ -129,6 +132,7 @@ export default {
       this.$flash.push({message: `Usuário desconectado`, className: 'info'})
       this.showModalLogout = false
       this.$emit('closeMenuCollapse')
+      window.location.reload(true)
     },
     criarConta: function () {
       let self = this

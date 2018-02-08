@@ -30,7 +30,7 @@ Vue.use(Acl, {router: router, init: 'public'})
 var config = {
   local: {
     project_name: 'AnimesGO',
-    api: '//localhost:3000/',
+    api: '//192.168.0.11:3000/',
     wb_image: '//blog.dev/upload/image/',
     wb_avatar: '//blog.dev/upload/image/user/'
   },

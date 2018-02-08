@@ -5,6 +5,7 @@ import Timeline from '@/views/Timeline'
 import Search from '@/views/Search'
 import Filter from '@/views/Filter'
 import Conta from '@/views/Conta'
+import Doacao from '@/views/Doacao'
 import CriarConta from '@/views/CriarConta'
 
 import Watch from '@/views/Watch'
@@ -63,6 +64,14 @@ export default new Router({
       path: '/criar-conta',
       name: 'Criar conta',
       component: CriarConta,
+      meta: {
+        permission: 'public'
+      }
+    },
+    {
+      path: '/doacao',
+      name: 'Doação',
+      component: Doacao,
       meta: {
         permission: 'public'
       }
