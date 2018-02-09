@@ -9,81 +9,68 @@ import Doacao from '@/views/Doacao'
 import CriarConta from '@/views/CriarConta'
 
 import Watch from '@/views/Watch'
+import Fail from '@/views/Fail'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   scrollBehavior: function (to, from, savedPosition) {
-    // return { x: 0, y: 0 }
+    let scrolltop = (savedPosition !== null) ? savedPosition.y : 0
+    $('html, body').delay(500).animate({ scrollTop: scrolltop }, { duration: 500 })
   },
   routes: [
     {
       path: '/',
       name: 'Home',
-      component: Timeline,
-      meta: {
-        permission: 'public'
-      }
+      component: Timeline
+    },
+    {
+      path: '/fail',
+      name: 'Fail',
+      component: Fail
     },
     {
       path: '/search',
       name: 'Busca',
-      component: Search,
-      meta: {
-        permission: 'public'
-      }
+      component: Search
     },
     {
       path: '/search/:cmd',
       name: 'Busca personalizada',
       component: Search,
-      props: true,
-      meta: {
-        permission: 'public'
-      }
+      props: true
     },
     {
       path: '/filter/:chave/:valor',
       name: 'Filtro',
       component: Filter,
-      props: true,
-      meta: {
-        permission: 'public'
-      }
+      props: true
     },
     {
       path: '/conta',
       name: 'Minha conta',
       component: Conta,
       meta: {
-        permission: 'client'
+        role: ['membro', 'colaborador', 'mod', 'autor', 'admin'],
+        fail: '/'
       }
     },
     {
       path: '/criar-conta',
       name: 'Criar conta',
-      component: CriarConta,
-      meta: {
-        permission: 'public'
-      }
+      component: CriarConta
     },
     {
       path: '/doacao',
       name: 'Doação',
-      component: Doacao,
-      meta: {
-        permission: 'public'
-      }
+      component: Doacao
     },
     {
       path: '/watch/:slug',
       name: 'Watch',
       component: Watch,
-      props: true,
-      meta: {
-        permission: 'public'
-      }
+      props: true
     },
     {
       path: '/watch/:slug/:ep',
@@ -91,7 +78,8 @@ export default new Router({
       component: Watch,
       props: true,
       meta: {
-        permission: 'public'
+        role: ['membro', 'colaborador', 'mod', 'autor', 'admin'],
+        fail: '/doacao'
       }
     }
   ]

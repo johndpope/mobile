@@ -108,7 +108,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.access)
     this.fetchGeneros()
   },
   methods: {
@@ -116,8 +115,6 @@ export default {
       let self = this
       this.$http.get(this.$api(`user/login/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
         self.$ls.set('user', response.body)
-        self.setPermissions(response.body.role)
-        console.log(self.access)
         self.showModalLogin = false
         self.$emit('closeMenuCollapse')
         self.$flash.push({message: `${response.body.username} conectou`, className: 'info'})
@@ -132,7 +129,6 @@ export default {
       this.$flash.push({message: `Usuário desconectado`, className: 'info'})
       this.showModalLogout = false
       this.$emit('closeMenuCollapse')
-      this.setPermissions('public')
       window.location.reload(true)
     },
     criarConta: function () {
@@ -140,7 +136,7 @@ export default {
       this.$http.get(this.$api(`user/view/${self.user.email}`)).then(response => {
         self.$flash.push({message: `Email já em uso`, className: 'error'})
       }, response => {
-        self.$ls.set('usertemp', self.user)
+        self.$ls.set('user', self.user)
         self.showModalLogin = false
         self.$emit('closeMenuCollapse')
         self.$router.push({name: 'Criar conta'})
@@ -150,11 +146,34 @@ export default {
       this.showDropdown[name] = !this.showDropdown[name]
     },
     fetchGeneros: function () {
-      this.$http.get(this.$api(`posts/metas/generos`)).then(response => {
-        this.site.generos = response.body
-      }, response => {
-        // code
-      })
+      this.site.generos = this.$ls.get('generos', false)
+      if (this.site.generos === false) {
+        let self = this
+        this.$http.get(this.$api(`posts/metas/generos`)).then(response => {
+          self.site.generos = response.body
+          self.$ls.set('generos', self.site.generos, (60 * 60 * 1000) * 3)
+        }, response => {
+          self.site.generos = [
+            {
+              id: 'acaocarai',
+              slug: 'acao',
+              nome: 'Ação'
+            },
+            {
+              id: 'lutacarai',
+              slug: 'luta',
+              nome: 'Luta'
+            },
+            {
+              id: 'comediacarai',
+              slug: 'comedia',
+              nome: 'Comédia'
+            }
+          ]
+          alert('opa')
+          self.$ls.set('generos', self.site.generos, (60 * 60 * 1000) * 3)
+        })
+      }
     },
     setPermissions: function (role) {
       let permission = (role === 'public') ? 'public' : 'client'

@@ -23,11 +23,13 @@ export default {
 
 <style lang="scss" scoped>
 .menu__header {
-  background-color: black;
+  background-color: #242424;
   display: flex;
   padding: 0 10px;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  bottom: 0; left: 0; right: 0;
 }
 
 h1 {

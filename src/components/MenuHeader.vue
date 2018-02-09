@@ -40,9 +40,9 @@ export default {
     },
     showMenuCollapse: function () {
       if (this.showMenuCollapse === true) {
-        this.$root.$el.style.overflow = 'hidden'
+        document.body.style.overflow = 'hidden'
       } else {
-        this.$root.$el.style.overflow = 'auto'
+        document.body.style.overflow = 'auto'
       }
     }
   },
@@ -60,7 +60,7 @@ export default {
 }
 .menu__header {
   padding: 0 10px;
-  background-color: black;
+  background-color: $color-bg-header;
   display: flex;
   justify-content: space-between;
   align-items: center;

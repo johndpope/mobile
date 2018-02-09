@@ -28,12 +28,12 @@ export default {
   },
   watch: {
     '$route': function (to, from, next) {
-      // if (to.meta.permission !== 'public') {
-      //   let user = this.$ls.get('user', false)
-      //   if (!user || ['admin', 'membro', 'vip', 'mod', 'autor', 'colaborador', 'sqla'].indexOf(user.role) < 0) {
-      //     window.location.href = '/'
-      //   }
-      // }
+      if ((typeof to.meta !== 'undefined') && typeof to.meta.role !== 'undefined') {
+        let userlogado = this.$ls.get('user', false)
+        if (userlogado === false || to.meta.role.indexOf(userlogado.role) < 0) {
+          window.location.href = '/'
+        }
+      }
       $('html, body').delay(500).animate({ scrollTop: 0 }, { duration: 500 })
     }
   }

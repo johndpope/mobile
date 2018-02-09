@@ -9,7 +9,6 @@ import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import App from './App'
 import router from './router'
-import Acl from 'vue-acl'
 
 // CSS
 import 'font-awesome/css/font-awesome.css'
@@ -24,7 +23,6 @@ Vue.use(VueTouch)
 Vue.use(VueAnalytics, {id: 'UA-106829297-3'})
 Vue.use(VueLocalStorage, {namespace: 'ag__'})
 Vue.use(VueHead)
-Vue.use(Acl, {router: router, init: 'public', fail: '/'})
 
 // API
 var config = {
