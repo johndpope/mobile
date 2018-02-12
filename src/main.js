@@ -30,13 +30,13 @@ var config = {
     project_name: 'AnimesGO',
     api: '//192.168.0.11:3000/',
     wb_image: '//blog.dev/upload/image/',
-    wb_avatar: '//blog.dev/upload/image/user/'
+    wb_user: '//blog.dev/upload/image/user/'
   },
   prod: {
     project_name: 'AnimesGO',
     api: '//api.animesgo.net/',
     wb_image: '//www.animesgo.net/upload/image/',
-    wb_avatar: '//www.animesgo.net/upload/image/user/'
+    wb_user: '//www.animesgo.net/upload/image/user/'
   }
 }
 Vue.prototype.$config = config.local
@@ -45,12 +45,33 @@ Vue.prototype.$api = function (req) {
 }
 
 Vue.prototype.$flash = []
-
-Vue.filter('dataEvento', function (value) {
-  if (value) {
-    return Moment(String(value)).format('DD/MM/YYYY')
+Vue.prototype.moment = Moment
+Vue.prototype.checkPermissions = function (roles) {
+  let userlogado = this.$ls.get('user', false)
+  if (userlogado !== false && roles.indexOf(userlogado.role) > -1) {
+    return true
   }
-})
+  return false
+}
+Vue.prototype.makeQueryString = function (s) {
+  const FIND = ['"', ':', ',', '{', '}']
+  const REPLACE = ['', '=', '&', '', '']
+  let stringify = JSON.stringify(s)
+  FIND.forEach((value, key) => {
+    stringify = stringify.split(value).join(REPLACE[key])
+  })
+  console.log(stringify)
+  return stringify
+}
+Vue.prototype.makeImageUrl = function (key, filename) {
+  let urlImage = filename
+  if (['post.capa', 'post.imagem', 'post.banner'].indexOf(key) > -1) {
+    urlImage = config.prod.wb_image + filename
+  } else if (['user.avatar', 'user.imagem'].indexOf(key) > -1) {
+    urlImage = config.prod.wb_user + filename
+  }
+  return urlImage
+}
 
 Vue.filter('slugify', function (value) {
   var slug = ''

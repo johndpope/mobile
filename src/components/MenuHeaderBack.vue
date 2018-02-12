@@ -4,7 +4,8 @@
       <i class="fa fa-angle-left"></i>
       <slot name="title"></slot>
     </h1>
-    <button type="submit" name="submit" class="menu__header__button">
+    <button type="submit" name="submit" class="btn success">
+      <slot name="acao"></slot>
       <i class="fa fa-check"></i>
     </button>
   </nav>
@@ -25,10 +26,10 @@ export default {
 .menu__header {
   background-color: #242424;
   display: flex;
-  padding: 0 10px;
+  padding:  10px;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
+  position: fixed;
   bottom: 0; left: 0; right: 0;
 }
 
@@ -36,24 +37,23 @@ h1 {
   font-size: 13px;
   color: white;
   text-transform: uppercase;
-  cursor: default;
+  cursor: pointer;
 }
 
 .menu__header__button {
-  font-size: 2vh;
+  font-size: 13px;
   border: none;
-  padding: 15px 0;
-  background-color: transparent;
+  padding: 10px;
+  background-color: $color-blue;
   color: white;
   line-height: 1;
   text-align: center;
   text-transform: uppercase;
-  transition: .1s ease-in-out all;
 }
 .menu__header__button:hover,
 .menu__header__button:focus,
 .menu__header__button:active,
 .menu__header__button.active {
-  color: $color-azul-light;
+  background-color: black;
 }
 </style>

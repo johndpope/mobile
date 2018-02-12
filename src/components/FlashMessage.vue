@@ -27,9 +27,10 @@ export default {
 <style scoped lang="scss">
 
 .alert-container {
+  z-index: 4000;
   position: fixed;
   left: 20px;
-  bottom: 30px;
+  bottom: 45px;
   transition: .3s ease-in-out all;
 }
 

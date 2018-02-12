@@ -25,17 +25,6 @@ export default {
         complement: this.$config.project_name
       }
     }
-  },
-  watch: {
-    '$route': function (to, from, next) {
-      if ((typeof to.meta !== 'undefined') && typeof to.meta.role !== 'undefined') {
-        let userlogado = this.$ls.get('user', false)
-        if (userlogado === false || to.meta.role.indexOf(userlogado.role) < 0) {
-          window.location.href = '/'
-        }
-      }
-      $('html, body').delay(500).animate({ scrollTop: 0 }, { duration: 500 })
-    }
   }
 }
 </script>

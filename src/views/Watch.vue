@@ -79,8 +79,16 @@ export default {
     'Player': Player,
     'ad-banner': AdBanner300x100
   },
+  head: {
+    title () {
+      return {
+        inner: this.$route.name
+      }
+    }
+  },
   data () {
     return {
+      titlePage: '',
       post: {
         titulo: '',
         generos: '',
@@ -98,9 +106,6 @@ export default {
         url: ''
       }
     }
-  },
-  computed: {
-    // code
   },
   methods: {
     definirTemporada: function (temporada) {

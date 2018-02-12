@@ -145,6 +145,10 @@ hr.black {
 	background-color: $color-green;
 	color: $color-white;
 	@include button;
+  &:hover {
+    background-color: white;
+    color: black;
+  }
 }
 
 .btn.error {
@@ -206,7 +210,7 @@ hr.black {
 .form-group input[type='password'],
 .form-group input[type='email'] {
 	border-radius: 5px;
-	border: 2px solid #ECE2E2;
+	border: 2px solid #D1DDE9;
 	height: 32px;
 	font-size: 14px;
 	padding: 0 10px;

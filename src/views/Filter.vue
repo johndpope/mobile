@@ -42,7 +42,7 @@ export default {
   head: {
     title () {
       return {
-        inner: this.$router.name
+        inner: this.$route.name
       }
     }
   },

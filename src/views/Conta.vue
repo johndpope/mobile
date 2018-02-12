@@ -2,7 +2,8 @@
   <div>
     <form action="#" method="post" @submit.prevent="submitForm()">
       <MenuHeaderBack>
-        <b slot="title">Minha conta</b>
+        <b slot="title" clas="animated">Minha conta</b>
+        <b slot="acao" clas="animated">Salvar</b>
       </MenuHeaderBack>
 
         <label for="nome">
@@ -32,16 +33,16 @@
     </form>
     <modal v-if="showModal" @close="showModal = false">
       <div slot="header">
-        Alterar senha
+        <h3>Alterar senha</h3>
       </div>
       <div slot="body">
         <label for="oldpassword">
-            <span class="label">Senha atual</span>
-          <input type="password" name="oldpassword" v-model="user.password">
+          <span class="label">Senha atual</span>
+          <input type="password" name="oldpassword" v-model="newPassword.old">
         </label>
         <label for="oldpassword">
             <span class="label">Nova senha</span>
-          <input type="password" name="oldpassword" v-model="user.newPassword" value="">
+          <input type="password" name="oldpassword" v-model="newPassword.new">
         </label>
       </div>
       <div slot="footer">
@@ -76,6 +77,13 @@ export default {
       showModal: false
     }
   },
+  beforeMount: function () {
+    // TEMP: Block users não logado
+    // OPTIMIZE: Verificar permissões no proprio objeto de rotas (beforeRouter, beforeRounterEnter...)
+    if (!this.checkPermissions(this.$route.meta.role)) {
+      window.location.href = '/'
+    }
+  },
   computed: {
     user: function () {
       return this.$ls.get('user', false)
@@ -84,28 +92,37 @@ export default {
   methods: {
     submitForm: function () {
       let self = this
-      this.$http.post(this.$api(`user/edit/${self.user.id}/?${self.queryString(self.user)}`)).then(response => {
+      let userSubmit = self.user
+      if (typeof userSubmit.avatar !== 'undefined' && userSubmit.avatar !== '') {
+        userSubmit.avatar = userSubmit.avatar.split('/image/')[1]
+      }
+      this.$http.post(this.$api(`user/edit/${self.user.id}/?${this.makeQueryString(userSubmit)}`)).then(response => {
         self.$ls.set('user', self.user)
-        self.$flash.push({message: response.bodyText, className: 'info'})
+        self.$flash.push({message: 'Dados atualizados', className: 'info'})
       }, response => {
         this.$flash.push({message: 'Falha ao atualizar', className: 'error'})
       })
     },
     alterarSenha: function () {
       if (this.user.password === sha1(this.newPassword.old)) {
-        alert('q')
+        let self = this
+        let user = {
+          password: sha1(self.newPassword.new),
+          modified: this.moment().format('YYYY-MM-DD h:mm:ss'),
+          ultimo_login: this.moment().unix()
+        }
+        this.$http.post(this.$api(`user/edit/${self.user.id}/?${self.makeQueryString(user)}`)).then(response => {
+          self.$ls.set('user', self.user)
+          self.$flash.push({message: 'Senha alterada com sucesso', className: 'info'})
+          this.showModal = false
+        }, response => {
+          this.$flash.push({message: 'Falha ao atualizar', className: 'error'})
+          this.showModal = false
+        })
       } else {
         this.$flash.push({message: 'Senha atual não confere', className: 'error'})
+        this.showModal = false
       }
-    },
-    queryString: function (s) {
-      const FIND = ['"', ':', ',', '{', '}']
-      const REPLACE = ['', '=', '&', '', '']
-      let stringify = JSON.stringify(s)
-      FIND.forEach((value, key) => {
-        stringify = stringify.split(value).join(REPLACE[key])
-      })
-      return stringify
     }
   }
 }

@@ -1,7 +1,7 @@
 <template lang="html">
 	<router-link :to="`/watch/${item.slug}`" class="article_post" :class="{ 'full': personalize }">
 		<span class="article_post__capa">
-			<img :src="item.capa" :alt="item.titulo">
+			<img :src="makeImageUrl('post.capa', item.capa)" :alt="item.titulo">
 		</span>
 		<h4 class="article_post__titulo">{{ item.titulo }}</h4>
 		<h5 class="article_post__ano">{{ item.ano }}</h5>

@@ -19,6 +19,15 @@ export default new Router({
     let scrolltop = (savedPosition !== null) ? savedPosition.y : 0
     $('html, body').delay(500).animate({ scrollTop: scrolltop }, { duration: 500 })
   },
+  beforeEnter: function (to, from, next) {
+    if ((typeof to.meta !== 'undefined') && typeof to.meta.role !== 'undefined') {
+      if (!Vue.prototype.checkPermissions(to.meta.role)) {
+        window.location.href = '/'
+        next(false)
+      }
+    }
+    next()
+  },
   routes: [
     {
       path: '/',
@@ -76,11 +85,7 @@ export default new Router({
       path: '/watch/:slug/:ep',
       name: 'WatchEp',
       component: Watch,
-      props: true,
-      meta: {
-        role: ['membro', 'colaborador', 'mod', 'autor', 'admin'],
-        fail: '/doacao'
-      }
+      props: true
     }
   ]
 })

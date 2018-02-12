@@ -27,6 +27,9 @@
       <a v-if="!userLogado" href="#" @click.prevent="showModalLogin = !showModalLogin">
         <i class="fa fa-user-o"></i> Login
       </a>
+      <router-link v-if="!userLogado" :to="{ name: 'Criar conta' }">
+        <i class="fa fa-user-plus"></i> Criar conta
+      </router-link>
       <router-link v-if="userLogado" :to="{ name: 'Minha conta' }">
         <i class="fa fa-user-o"></i> Minha conta
       </router-link>
@@ -49,25 +52,26 @@
     </ModalLogin>
     <ModalLogin v-if="showModalLogin">
       <div slot="header">
+        <h3>Conecte-se ao AnimesGO</h3>
         <button class="modal-close-button" @click="showModalLogin = false">
           <i class="fa fa-close"></i>
         </button>
       </div>
       <div slot="body">
-    		<div class="form-group">
+        <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" name="email" id="email" v-model="user.email">
+          <input type="email" name="email" id="email" @keyup.enter="conectar()" v-model="user.email">
         </div>
-    		<div class="form-group">
-          <label for="password">Email</label>
-          <input type="password" name="password" id="password" v-model="user.password">
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" name="password" id="password" @keyup.enter="conectar()" v-model="user.password">
         </div>
-    	</div>
+      </div>
       <div slot="footer">
-        <button type="button" class="modal-default-button" @click.prevent="criarConta()">
-          Criar conta (email e senha)
-        </button>
-        <button type="button" class="modal-success-button" @click.prevent="conectar()">
+        <router-link tag="button" :to="{ name: 'Criar conta' }"  class="modal-default-button">
+          Criar conta
+        </router-link>
+        <button type="submit" class="modal-success-button" @click.prevent="conectar()">
           Entrar
         </button>
       </div>
@@ -136,7 +140,7 @@ export default {
       this.$http.get(this.$api(`user/view/${self.user.email}`)).then(response => {
         self.$flash.push({message: `Email já em uso`, className: 'error'})
       }, response => {
-        self.$ls.set('user', self.user)
+        self.$ls.set('usertemp', self.user)
         self.showModalLogin = false
         self.$emit('closeMenuCollapse')
         self.$router.push({name: 'Criar conta'})
@@ -170,8 +174,7 @@ export default {
               nome: 'Comédia'
             }
           ]
-          alert('opa')
-          self.$ls.set('generos', self.site.generos, (60 * 60 * 1000) * 3)
+          self.$ls.set('generos', self.site.generos, (60 * 60 * 1000))
         })
       }
     },

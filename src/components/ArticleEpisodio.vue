@@ -2,7 +2,7 @@
   <span>
     <router-link :to="`/watch/${item.parent.slug}/${item.id}`" class="article_post">
       <span class="article_post__capa">
-        <img :src="item.parent.capa" :alt="item.titulo">
+        <img :src="makeImageUrl('post.capa', item.parent.capa)" :alt="item.titulo">
       </span>
       <h4>{{ item.titulo }}</h4>
       <h5>{{ item.parent.titulo }}</h5>

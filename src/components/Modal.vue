@@ -63,7 +63,7 @@ export default {
 
 .modal-header h3 {
   margin-top: 0;
-  color: #42b983;
+  color: #3C3C3C;
 }
 
 .modal-body {
@@ -98,17 +98,15 @@ export default {
   background-color: $color-red;
 }
 
-.modal-enter {
-  opacity: 0;
-}
-
+// animation in-out
+.modal-enter,
 .modal-leave-active {
   opacity: 0;
 }
 
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
-  transform: scale(1.1) translateY(200px);
+  transform: translate3d(0px, 200px, 0px) scale3d(1, 2, 1);
 }
 
 </style>

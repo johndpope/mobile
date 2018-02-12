@@ -61,8 +61,8 @@ export default {
 }
 
 .modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+  margin: 0;
+  color: #444;
 }
 
 .modal-body {
@@ -89,27 +89,15 @@ export default {
   background-color: $color-red;
 }
 
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-
-.modal-enter {
-  opacity: 0;
-}
-
+// animation in-out
+.modal-enter,
 .modal-leave-active {
   opacity: 0;
 }
 
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+  transform: translate3d(0px, 200px, 0px) scale3d(1, 2, 1);
 }
 
 </style>

@@ -1,21 +1,35 @@
 <template lang="html">
 	<div class="card-default">
-		<form action="index.html" method="post" @submit.prevent="login">
+		<form action="#" method="post" @submit.prevent="submitForm()">
+
+			<div class="form-group">
+				<label for="fullname">Nome completo</label>
+				<input type="text" name="fullname" id="fullname" v-model="user.fullname">
+			</div>
+
+			<div class="form-group">
+				<label for="username">Usuário</label>
+				<input type="text" name="username" id="username" v-model="user.username">
+			</div>
+
 			<div class="form-group">
 				<label for="email">Email</label>
 				<input type="email" name="email" id="email" v-model="user.email">
 			</div>
+
 			<div class="form-group">
 				<label for="password">Senha</label>
 				<input type="password" name="password" id="password" v-model="user.password">
 			</div>
+
 			<div class="form-group">
-				<!-- <label class="label-check" for="lembrarUser">
-					<input class="label-check-input" type="checkbox" name="lembrarUser" id="lembrarUser" v-model="lembrarUser">
-					<span class="label-check-title">Lembrar</span>
-				</label> -->
+				<label for="repassword">Confirmar senha</label>
+				<input type="password" name="repassword" id="repassword" v-model="repassword">
 			</div>
-			<button class="btn info" type="submit" name="login">Login</button>
+
+			<div class="form-group">
+        <button class="btn info" type="submit" name="submit">Criar conta</button>
+			</div>
 		</form>
 	</div>
 </template>
@@ -28,9 +42,12 @@ export default {
   data () {
     return {
       user: {
+        fullname: '',
+        username: '',
         email: '',
         password: ''
-      }
+      },
+      repassword: ''
     }
   },
   beforeCreate () {
@@ -39,20 +56,27 @@ export default {
     }
   },
   methods: {
-    login: function () {
+    submitForm: function () {
       let self = this
-      this.$http.get(this.$api(`user/login/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
-        self.$ls.set('user', response.body)
-        self.$flash.push({message: `Usuário conectado`, className: 'info'})
-        return true
+      this.$http.get(this.$api(`user/view/${self.user.email}`)).then(response => {
+        self.$flash.push({message: `Email já cadastrado`, className: 'error'})
       }, response => {
         if (response.status !== 404) {
-          self.$flash.push({message: `Falha ao conectar`, className: 'error'})
+          self.$flash.push({message: `Falha ao criar a conta`, className: 'error'})
         } else {
-          self.$flash.push({message: `Conta não encontrada`, className: 'info'})
+          this.criarConta()
         }
       })
-      self.$ls.set('user', false)
+    },
+    criarConta: function () {
+      let self = this
+      let userSubmit = self.user
+      userSubmit.password = sha1(self.user.password)
+      this.$http.get(this.$api(`user/criar-conta/?${self.makeQueryString(userSubmit)}`)).then(response => {
+        self.$flash.push({message: `Usuário cadastrado`, className: 'success'})
+      }, response => {
+        self.$flash.push({message: `Falha ao criar a conta`, className: 'error'})
+      })
     }
   }
 }
