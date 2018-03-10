@@ -54,7 +54,7 @@ export default {
       })
     },
     fetchLista: function () {
-      this.$http.get(this.$api('posts/lista')).then(response => {
+      this.$http.get(this.$api('posts/novos')).then(response => {
         this.posts = response.body
       }, response => {
         // code:

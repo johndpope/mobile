@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Timeline from '@/views/Timeline'
+import Listas from '@/views/Listas'
 import Search from '@/views/Search'
 import Filter from '@/views/Filter'
 import Conta from '@/views/Conta'
@@ -38,6 +39,11 @@ export default new Router({
       path: '/fail',
       name: 'Fail',
       component: Fail
+    },
+    {
+      path: '/listas',
+      name: 'Listas',
+      component: Listas
     },
     {
       path: '/search',
