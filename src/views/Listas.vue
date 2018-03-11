@@ -2,18 +2,15 @@
     <div>
       <div class="container">
 
-        <ul>
-          <li v-for="(lista, index) in listas">
-            <button @click="setLista(index)">
-              {{ lista.nome }}
-            </button>
+        <ul class="nav-listas">
+          <li @click="setLista(index)" v-for="(lista, index) in listas" class="nav-listas--item" :class="{ 'active': listaAtual.nome == lista.nome}">
+            {{ lista.nome }}
           </li>
         </ul>
 
         <h2>{{ listaAtual.nome }}: {{ posts.length }}</h2>
 
         <div class="columns-5">
-          <FakeList v-if="posts.length <= 0"></FakeList>
           <ArticlePost
             v-for="(post, index) in posts"
             :item="post"
@@ -21,6 +18,7 @@
             :key="post.id">
           </ArticlePost>
         </div>
+        <ad-banner/>
       </div>
     </div>
 </template>
@@ -28,7 +26,6 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import ArticlePost from '@/components/ArticlePost.vue'
-import FakeList from '@/components/FakeList.vue'
 import AdBanner300x100 from '@/components/AdBanner300x100.vue'
 
 export default {
@@ -54,8 +51,7 @@ export default {
   components: {
     'ArticlePost': ArticlePost,
     'InfiniteLoading': InfiniteLoading,
-    'ad-banner': AdBanner300x100,
-    'FakeList': FakeList
+    'ad-banner': AdBanner300x100
   },
   methods: {
     busca: function () {
@@ -85,22 +81,45 @@ export default {
       }
     ]
     this.listaAtual = this.listas[0]
+    this.busca()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  input {
-    margin: 20px 0;
-    width: 100%;
-    background-color: rgba(240, 240, 240, 1);
-    border: none;
-    color: #3E3E3E;
-    padding: 13px 30px;
-    border-radius: 4px;
-  }
 
-  h3 {
-    margin-bottom: 15px;
+.nav-listas {
+  list-style: none;
+  margin: 20px 0;
+  padding: 0;
+  width: 100%;
+
+  .nav-listas--item {
+    padding: 10px 20px;
+    color: rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    cursor: pointer;
+    transition: .2s ease-in-out all;
+
+    &.active {
+      color: white;
+      border-top: 1px solid rgba(255, 255, 255, .5);
+    }
   }
+}
+
+input {
+  margin: 20px 0;
+  width: 100%;
+  background-color: rgba(240, 240, 240, 1);
+  border: none;
+  color: #3E3E3E;
+  padding: 13px 30px;
+  border-radius: 4px;
+}
+
+h3 {
+  margin-bottom: 15px;
+}
+
 </style>
