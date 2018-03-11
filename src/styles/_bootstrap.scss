@@ -139,6 +139,8 @@ hr.black {
 .btn.default.active {
 	background-color: $color-white;
 	color: black;
+	box-shadow: 0 0 13px rgba(50, 50, 100, 1);
+	border: 2px solid rgb(68, 58, 187);
 }
 
 .btn.success {
