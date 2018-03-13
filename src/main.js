@@ -15,7 +15,8 @@ import 'font-awesome/css/font-awesome.css'
 import 'animate.css/animate.css'
 import 'swiper/dist/css/swiper.css'
 
-Raven.config('https://6983beb5db044cb39ac2419e6faff729@sentry.io/263729').addPlugin(RavenVue, Vue).install()
+let sentry = Raven.config('https://6983beb5db044cb39ac2419e6faff729@sentry.io/263729').addPlugin(RavenVue, Vue)
+if (process.env.NODE_ENV === 'production') sentry.install()
 
 // Configs (ORGANIZAR MELHOR)
 Vue.use(VueResource)
@@ -24,25 +25,9 @@ Vue.use(VueAnalytics, {id: 'UA-106829297-3'})
 Vue.use(VueLocalStorage, {namespace: 'ag__'})
 Vue.use(VueHead)
 
-// API
-var config = {
-  local: {
-    project_name: 'AnimesGO',
-    api: '//192.168.0.11:3000/',
-    wb_image: '//blog.dev/upload/image/',
-    wb_user: '//blog.dev/upload/image/user/'
-  },
-  prod: {
-    project_name: 'AnimesGO',
-    api: '//api.animesgo.net/',
-    wb_image: '//www.animesgo.net/upload/image/',
-    wb_user: '//www.animesgo.net/upload/image/user/'
-  }
-}
-Vue.prototype.$config = config.local
-Vue.prototype.$api = function (req) {
-  return this.$config.api + req
-}
+Vue.http.options.root = process.env.NODE_ENV === 'production'
+  ? '//api.animesgo.net/'
+  : '//192.168.0.11:3000/'
 
 Vue.prototype.$flash = []
 Vue.prototype.moment = Moment
@@ -66,9 +51,9 @@ Vue.prototype.makeQueryString = function (s) {
 Vue.prototype.makeImageUrl = function (key, filename) {
   let urlImage = filename
   if (['post.capa', 'post.imagem', 'post.banner'].indexOf(key) > -1) {
-    urlImage = config.prod.wb_image + filename
+    urlImage = `//animesgo.net/upload/image/${filename}`
   } else if (['user.avatar', 'user.imagem'].indexOf(key) > -1) {
-    urlImage = config.prod.wb_user + filename
+    urlImage = `//animesgo.net/upload/image/user/${filename}`
   }
   return urlImage
 }

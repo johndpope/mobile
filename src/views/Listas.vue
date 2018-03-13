@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     busca: function () {
-      this.$http.get(this.$api(`posts/lista/${this.listaAtual.posts}`)).then(response => {
+      this.$http.get(`posts/lista/${this.listaAtual.posts}`).then(response => {
         if (response.body.length) {
           this.posts = response.body
           this.buscaStatus = `Mostrando`

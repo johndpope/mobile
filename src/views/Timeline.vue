@@ -47,14 +47,14 @@ export default {
   },
   methods: {
     fetchNovosEpisodios: function () {
-      this.$http.get(this.$api('episodios/novos')).then(response => {
+      this.$http.get('episodios/novos').then(response => {
         this.episodios = response.body
       }, response => {
         // code:
       })
     },
     fetchLista: function () {
-      this.$http.get(this.$api('posts/novos')).then(response => {
+      this.$http.get('posts/novos').then(response => {
         this.posts = response.body
       }, response => {
         // code:

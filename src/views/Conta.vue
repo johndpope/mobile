@@ -96,7 +96,7 @@ export default {
       if (typeof userSubmit.avatar !== 'undefined' && userSubmit.avatar !== '') {
         userSubmit.avatar = userSubmit.avatar.split('/image/')[1]
       }
-      this.$http.post(this.$api(`user/edit/${self.user.id}/?${this.makeQueryString(userSubmit)}`)).then(response => {
+      this.$http.post(`user/edit/${self.user.id}/?${this.makeQueryString(userSubmit)}`).then(response => {
         self.$ls.set('user', self.user)
         self.$flash.push({message: 'Dados atualizados', className: 'info'})
       }, response => {
@@ -111,7 +111,7 @@ export default {
           modified: this.moment().format('YYYY-MM-DD h:mm:ss'),
           ultimo_login: this.moment().unix()
         }
-        this.$http.post(this.$api(`user/edit/${self.user.id}/?${self.makeQueryString(user)}`)).then(response => {
+        this.$http.post(`user/edit/${self.user.id}/?${self.makeQueryString(user)}`).then(response => {
           self.$ls.set('user', self.user)
           self.$flash.push({message: 'Senha alterada com sucesso', className: 'info'})
           this.showModal = false

@@ -120,7 +120,7 @@ export default {
   methods: {
     conectar: function () {
       let self = this
-      this.$http.get(this.$api(`user/login/${self.user.email}/${sha1(self.user.password)}`)).then(response => {
+      this.$http.get(`user/login/${self.user.email}/${sha1(self.user.password)}`).then(response => {
         self.$ls.set('user', response.body)
         self.showModalLogin = false
         self.$emit('closeMenuCollapse')
@@ -140,7 +140,7 @@ export default {
     },
     criarConta: function () {
       let self = this
-      this.$http.get(this.$api(`user/view/${self.user.email}`)).then(response => {
+      this.$http.get(`user/view/${self.user.email}`).then(response => {
         self.$flash.push({message: `Email já em uso`, className: 'error'})
       }, response => {
         self.$ls.set('usertemp', self.user)
@@ -156,7 +156,7 @@ export default {
       this.site.generos = this.$ls.get('generos', false)
       if (this.site.generos === false) {
         let self = this
-        this.$http.get(this.$api(`posts/metas/generos`)).then(response => {
+        this.$http.get(`posts/metas/generos`).then(response => {
           self.site.generos = response.body
           self.$ls.set('generos', self.site.generos, (60 * 60 * 1000) * 3)
         }, response => {

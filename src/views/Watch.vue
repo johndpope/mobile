@@ -116,7 +116,7 @@ export default {
       })
     },
     fetchEpisodios: function () {
-      this.$http.get(this.$api(`episodios/lista/${this.post.id}`)).then(response => {
+      this.$http.get(`episodios/lista/${this.post.id}`).then(response => {
         this.episodios = response.body
 
         if (this.episodios.length) {
@@ -127,7 +127,7 @@ export default {
       })
     },
     fetchPost: function () {
-      this.$http.get(this.$api(`posts/view/${this.slug}`)).then(response => {
+      this.$http.get(`posts/view/${this.slug}`).then(response => {
         this.post = response.body
         this.post.imagem = (this.post.imagem === 'https://www.animesgo.net/upload/image/') ? '//animesgo.net/img/animesgo-image.png' : this.post.imagem
         this.fetchEpisodios()

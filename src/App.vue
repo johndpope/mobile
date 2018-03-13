@@ -16,15 +16,6 @@ export default {
   components: {
     'MenuHeader': MenuHeader,
     'FlashMessage': FlashMessage
-  },
-  head: {
-    title () {
-      return {
-        inner: this.$route.name,
-        separator: '-',
-        complement: this.$config.project_name
-      }
-    }
   }
 }
 </script>

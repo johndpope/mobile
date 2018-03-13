@@ -58,7 +58,7 @@ export default {
   methods: {
     submitForm: function () {
       let self = this
-      this.$http.get(this.$api(`user/view/${self.user.email}`)).then(response => {
+      this.$http.get(`user/view/${self.user.email}`).then(response => {
         self.$flash.push({message: `Email já cadastrado`, className: 'error'})
       }, response => {
         if (response.status !== 404) {
@@ -72,7 +72,7 @@ export default {
       let self = this
       let userSubmit = self.user
       userSubmit.password = sha1(self.user.password)
-      this.$http.get(this.$api(`user/criar-conta/?${self.makeQueryString(userSubmit)}`)).then(response => {
+      this.$http.get(`user/criar-conta/?${self.makeQueryString(userSubmit)}`).then(response => {
         self.$flash.push({message: `Usuário cadastrado`, className: 'success'})
       }, response => {
         self.$flash.push({message: `Falha ao criar a conta`, className: 'error'})

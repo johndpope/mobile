@@ -63,7 +63,7 @@ export default {
       this.$nextTick(() => {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
       })
-      this.$http.get(this.$api(`posts/filter/${this.chave}/${this.valor}/0`)).then(response => {
+      this.$http.get(`posts/filter/${this.chave}/${this.valor}/0`).then(response => {
         if (response.body.length) {
           this.posts = response.body
           this.buscaStatus = `Mostrando`
@@ -75,7 +75,7 @@ export default {
     infiniteHandler: function ($state) {
       setTimeout(() => {
         const page = this.posts.length / 10
-        this.$http.get(this.$api(`posts/filter/${this.chave}/${this.valor}/${page}`)).then(response => {
+        this.$http.get(`posts/filter/${this.chave}/${this.valor}/${page}`).then(response => {
           if (response.body.length) {
             this.posts = this.posts.concat(response.body)
             $state.loaded()

@@ -62,7 +62,7 @@ export default {
       if (this.buscaTexto.length < 3) {
         return false
       }
-      this.$http.get(this.$api(`posts/busca/${this.buscaTexto}`)).then(response => {
+      this.$http.get(`posts/busca/${this.buscaTexto}`).then(response => {
         this.posts = response.body
         this.buscaStatus = `Mostrando ${this.posts.length}`
       }, response => {
