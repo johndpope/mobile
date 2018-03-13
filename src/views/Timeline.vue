@@ -68,9 +68,15 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   h2 {
-    margin: 20px 0 20px 0;
+    position: sticky;
+    top: 30px;
+    background-color: $color-bg-body;
+    z-index: 1;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, .4);
+    margin: 0 -10px 20px -10px;
+    padding: 20px 0 5px 10px;
     text-transform: uppercase;
     color: #DADCDD;
   }

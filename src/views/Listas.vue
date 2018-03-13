@@ -90,20 +90,24 @@ export default {
 
 .nav-listas {
   list-style: none;
+  display: flex;
   margin: 20px 0;
   padding: 0;
   width: 100%;
 
   .nav-listas--item {
+    width: 100%;
+    text-align: center;
     padding: 10px 20px;
     color: rgba(255, 255, 255, .3);
-    border-top: 1px solid rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .1);
     cursor: pointer;
     transition: .2s ease-in-out all;
 
     &.active {
       color: white;
-      border-top: 1px solid rgba(255, 255, 255, .5);
+      background-color: rgba(255, 255, 255, .1);
+      border-color: rgba(255, 255, 255, .5);
     }
   }
 }
