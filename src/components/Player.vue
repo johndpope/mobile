@@ -42,7 +42,7 @@ export default {
         autoplay: false,
         muted: false,
         language: 'pt-BR',
-        playbackRates: [0.7, 1.0, 1.5, 2.0],
+        playbackRates: [0.5, 1.0, 1.5, 2.0],
         sources: [{
           type: 'video/mp4',
           src: '//animesgo.net/img/animesgo-image.png'
