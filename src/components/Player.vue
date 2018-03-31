@@ -37,6 +37,7 @@ export default {
   },
   data () {
     return {
+      movedBar: false,
       playerOptions: {
         height: '360',
         autoplay: false,
@@ -45,7 +46,7 @@ export default {
         playbackRates: [0.5, 1.0, 1.5, 2.0],
         sources: [{
           type: 'video/mp4',
-          src: '//animesgo.net/img/animesgo-image.png'
+          src: ''
         }],
         poster: '//animesgo.net/img/animesgo-image.png'
       }
@@ -75,6 +76,10 @@ export default {
     },
     onPlayerEnded (player) {
       // console.log('player ended!', player)
+      let $next = $('[next-episode]')
+      if ($next.length === 1) {
+        this.$router.push($next.attr('href'))
+      }
     },
     onPlayerLoadeddata (player) {
       // console.log('player Loadeddata!', player)
@@ -97,10 +102,16 @@ export default {
     // or listen state event
     playerStateChanged (playerCurrentState) {
       // console.log('player current update state', playerCurrentState)
+      $('.bar .lista').css({ maxHeight: Math.ceil($('.vjs-text-track-display').height() - 53) })
     },
     // player is ready
     playerReadied (player) {
-      // player.currentTime(10)
+      // NOTE: USAR EVENTO PARA CONTINUAR DE ONDE PAROU
+      // player.currentTime(user.lastVideo.currentTimeSaved)
+      if (!this.movedBar) {
+        $('.bar').appendTo('.video-js')
+        this.movedBar = true
+      }
     }
   }
 }
@@ -109,12 +120,105 @@ export default {
 <style lang="scss">
 
 .container-player {
-  position: sticky;
-  top: 40px;
-  margin: 0px -10px 0px -10px;
   z-index: 1;
   box-shadow: 0px 4px 8px $color-bg-body;
   background-color: $color-bg-body;
+}
+
+// bar
+.vjs-has-started.vjs-user-inactive.vjs-playing .bar {
+  opacity: 0;
+}
+
+.bar {
+  z-index: 100;
+  position: absolute;
+  top: 0; right: 0; left: 0;
+  background-color: rgba(43, 51, 63, 0.7);
+  padding: 10px;
+  @include transition(1s ease-out opacity);
+  display: flex;
+  align-items: center;
+
+  & > * {
+    margin-right: 10px;
+  }
+}
+
+.lista {
+  list-style: none;
+  position: absolute;
+  top: 42px;
+  left: 0;
+  list-style: none;
+  display: flex;
+  flex-flow: column;
+  max-width: 50%;
+  max-height: 180px;
+  overflow-y: auto;
+  background-color: rgba(43, 51, 63, 0.7);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+
+  /* scrollbar */
+  &::-webkit-scrollbar {
+      width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+      background: rgba(43, 51, 63, 0.7);
+  }
+  &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.7);
+  }
+  &::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 1);
+  }
+}
+
+.lista-temporadas-temporada {
+  padding: 10px 5px;
+  color: black;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.lista-temporadas-temporada:hover {
+  opacity: .4;
+}
+
+.lista-temporadas-temporada + .lista-temporadas-temporada {
+  border-top: 1px solid rgba(100,100,255,.1);
+}
+
+.row-buttons .btn {
+  text-transform: capitalize;
+}
+
+.lista--item {
+  cursor: pointer;
+  @include transition;
+  @include display-flex(center);
+  color: $color-white;
+  padding: 20px 40px 20px 10px;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+  }
+}
+
+.lista--item:hover,
+.lista--item.active {
+  background-color: rgba(43, 51, 63, 0.9);
+  color: white;
+}
+
+.lista--item.disabled {
+  opacity: .5;
+}
+
+.lista--item--info h4 {
+  margin: 0;
+  font-size: 13px;
+  text-transform: uppercase;
 }
 
 // vjs-custom-skin

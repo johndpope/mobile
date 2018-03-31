@@ -1,3 +1,28 @@
+.grid-default {
+	width: 100%;
+	max-width: 1200px;
+	padding: 10px;
+	margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+
+	@media (max-width: 899px) {
+		& {
+			flex-flow: column;
+
+			div {
+				max-width: 100%;
+			}
+		}
+	}
+
+	@media (min-width: 900px) {
+		& > div {
+			width: calc(50% - 10px);
+		}
+	}
+}
+
 h2 {
 	margin: 20px 0 10px 0;
 	text-transform: uppercase;

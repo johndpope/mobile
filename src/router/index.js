@@ -17,8 +17,10 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   scrollBehavior: function (to, from, savedPosition) {
-    let scrolltop = (savedPosition !== null) ? savedPosition.y : 0
-    $('html, body').delay(500).animate({ scrollTop: scrolltop }, { duration: 500 })
+    if (to.name !== 'WatchEp') {
+      let scrolltop = (savedPosition !== null) ? savedPosition.y : 0
+      $('html, body').delay(500).animate({ scrollTop: scrolltop }, { duration: 500 })
+    }
   },
   beforeEnter: function (to, from, next) {
     if ((typeof to.meta !== 'undefined') && typeof to.meta.role !== 'undefined') {

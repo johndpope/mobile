@@ -4,3 +4,7 @@
 	font-size: 12px;
 	padding: 5px 10px;
 }
+
+@mixin transition($transition: 300ms ease-in-out all) {
+  transition: $transition;
+}

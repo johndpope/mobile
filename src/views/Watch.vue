@@ -1,61 +1,84 @@
 <template lang="html">
 	<div>
 
-    <div class="container">
-      <Player :src="episodioAtual.url" :poster="post.imagem"></Player>
-
-      <div class="info-post" :class="{'expanded': exibirInfoPost }" @click="exibirInfoPost = !exibirInfoPost">
-        <h1>{{ post.titulo }}</h1>
-        <h2 v-if="episodioAtual.url !== ''">
-          <i class="fa fa-fw fa-play"></i> {{ episodioAtual.titulo }} - {{ episodioAtual.idioma }}
-        </h2>
-        <transition name="fade" mode="out-in">
-          <div v-if="exibirInfoPost">
-            <p>{{ post.descricao }}</p>
-            <ad-banner/>
-            <p class="info-post--generos">
-              <router-link :to="{ name: 'Filtro', params: { chave: 'genero', valor: genero } }" :key="genero.id" class="info-post--generos--genero" v-for="genero in post.generos.split(',')">
-                {{ genero }}
-              </router-link>
-            </p>
+    <div class="grid-default">
+      <div class="container-player">
+        <div class="bar">
+          <router-link v-if="episodioAtual.prevEp" prev-episode class="btn success" :to="{ path: `/watch/${slug}/${episodioAtual.prevEp.id}` }">
+            <i class="fa fa-step-backward"></i>
+          </router-link>
+          <router-link v-if="episodioAtual.nextEp" next-episode class="btn success" :to="{ path: `/watch/${slug}/${episodioAtual.nextEp.id}` }">
+            <i class="fa fa-step-forward"></i>
+          </router-link>
+          <div v-if="episodios.length">
+            <button @click="exibirListaEpisodios = !exibirListaEpisodios" class="btn success">
+              <i class="fa fa-list-ol"></i>
+            </button>
+            <transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+              <nav v-if="exibirListaEpisodios" class="lista">
+                <router-link :class="{ 'active': ep == episodio.id }" class="lista--item" v-for="episodio in episodiosFiltrado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
+                  <div class="lista--item--info">
+                    <h4>{{ episodio.titulo }}</h4>
+                  </div>
+                </router-link>
+              </nav>
+            </transition>
           </div>
-        </transition>
-      </div>
-
-      <div v-if="temporadas.length" class="seletor-temporada">
-        <button class="seletor-temporada-atual" @click="exibirListaTemporadas = !exibirListaTemporadas">
-          <i class="fa fa-angle-right"></i>
-          {{ temporadaSelecionada }}
-        </button>
-        <transition name="push">
-          <ul class="lista-temporadas" v-if="exibirListaTemporadas && temporadas.length > 1">
-            <li class="lista-temporadas-temporada" v-for="temporada in temporadas" @click="definirTemporada(temporada)">
-              {{ temporada }}
-            </li>
-          </ul>
-        </transition>
-      </div>
-
-      <div v-if="idiomas.length" class="row-buttons">
-        <button v-for="idioma in idiomas" @click="idiomaSelecionado = idioma" :class="{ 'active': idioma == idiomaSelecionado }" class="btn default">
-          {{ idioma }}
-        </button>
-      </div>
-
-      <nav v-if="episodios.length" class="lista">
-        <router-link :class="{ 'active': ep == episodio.id }" class="episodio" v-for="episodio in episodiosFiltrado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
-          <i class="fa fa-play-circle"></i>
-          <div class="episodio-info">
-            <h4>{{ episodio.titulo }}</h4>
+          <div v-if="temporadas.length">
+            <button class="btn success" @click="exibirListaTemporadas = !exibirListaTemporadas">
+              <i class="fa fa-angle-right"></i>
+              Temporada
+            </button>
+            <transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+              <div class="lista" v-if="exibirListaTemporadas">
+                <div class="lista--item" v-for="temporada in temporadas" @click="definirTemporada(temporada)">
+                  <div class="lista--item--info">
+                    <h4>{{ temporada }}</h4>
+                  </div>
+                </div>
+              </div>
+            </transition>
           </div>
-        </router-link>
-      </nav>
+          <div v-if="idiomas.length">
+            <button class="btn success" @click="exibirListaIdiomas = !exibirListaIdiomas">
+              <i class="fa fa-language"></i>
+              Idioma
+            </button>
+            <transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+              <div class="lista" v-if="exibirListaIdiomas">
+                <div v-for="idioma in idiomas" @click="idiomaSelecionado = idioma" class="lista--item">
+                  <div class="lista--item--info">
+                    <h4>{{ idioma }}</h4>
+                  </div>
+                </div>
+              </div>
+            </transition>
+          </div>
+        </div>
+        <Player ref="componentPlayer" :src="episodioAtual.url" :poster="post.imagem"></Player>
+        <div class="info-post" :class="{'expanded': exibirInfoPost }" @click="exibirInfoPost = !exibirInfoPost">
+          <h1>{{ post.titulo }}</h1>
+          <h2 v-if="episodioAtual.url !== ''">
+            <i class="fa fa-fw fa-play"></i> {{ episodioAtual.titulo }} - {{ episodioAtual.idioma }}
+          </h2>
+          <transition name="fade" mode="out-in">
+            <div v-if="exibirInfoPost">
+              <p>{{ post.descricao }}</p>
+              <p class="info-post--generos">
+                <router-link :to="{ name: 'Filtro', params: { chave: 'genero', valor: genero } }" :key="genero.id" class="info-post--generos--genero" v-for="genero in post.generos.split(',')">
+                  {{ genero }}
+                </router-link>
+              </p>
+            </div>
+          </transition>
+        </div>
+      </div><!-- col-left -->
 
-      <ad-banner/>
+      <div>
+        <ad-banner/>
+      </div>
 
-      <h2 v-if="episodios.length == 0">Nada ainda :(</h2>
-
-    </div>
+    </div><!-- .grid-default -->
 
 	</div>
 </template>
@@ -88,6 +111,8 @@ export default {
   },
   data () {
     return {
+      exibirListaIdiomas: false,
+      exibirListaEpisodios: false,
       titlePage: '',
       post: {
         titulo: '',
@@ -103,7 +128,9 @@ export default {
       idiomas: [],
       idiomaSelecionado: '',
       episodioAtual: {
-        url: ''
+        url: '',
+        prevEp: false,
+        nextEp: false
       }
     }
   },
@@ -153,6 +180,10 @@ export default {
           self.episodioAtual.url = self.randomCDN(self.episodioAtual.url)
           self.idiomaSelecionado = self.episodioAtual.idioma
           self.definirTemporada(self.episodioAtual.tipo)
+
+          // HACK: Armazena o anterior e próximo episódio
+          self.episodioAtual.prevEp = (typeof self.episodios[key - 1] !== 'undefined') ? self.episodios[key - 1] : false
+          self.episodioAtual.nextEp = (typeof self.episodios[key + 1] !== 'undefined') ? self.episodios[key + 1] : false
         }
       })
     },
@@ -165,6 +196,27 @@ export default {
     '$route': function (value) {
       if (value.name === 'WatchEp') {
         this.setEpisodioAtual()
+        $('video')[0].pause()
+        $('video').eq(0).attr('src', this.episodioAtual.url)
+        $('video')[0].play()
+      }
+    },
+    exibirListaIdiomas (n, o) {
+      if (n) {
+        this.exibirListaTemporadas = false
+        this.exibirListaEpisodios = false
+      }
+    },
+    exibirListaTemporadas (n, o) {
+      if (n) {
+        this.exibirListaIdiomas = false
+        this.exibirListaEpisodios = false
+      }
+    },
+    exibirListaEpisodios (n, o) {
+      if (n) {
+        this.exibirListaIdiomas = false
+        this.exibirListaTemporadas = false
       }
     }
   },
@@ -175,48 +227,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.seletor-temporada {
-  position: relative;
-  width: 100%;
-}
-
-.seletor-temporada-atual {
-  @include button;
-}
-
-.lista-temporadas {
-  position: absolute;
-  top: 10px;
-  width: 123px;
-  list-style: none;
-  padding: 0;
-  background-color: $color-white;
-  @include box-shadow();
-}
-
-.lista-temporadas-temporada {
-  padding: 10px 5px;
-  color: black;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.lista-temporadas-temporada:hover {
-  opacity: .4;
-}
-
-.lista-temporadas-temporada + .lista-temporadas-temporada {
-  border-top: 1px solid rgba(100,100,255,.1);
-}
-
-.row-buttons {
-  margin-top: 10px;
-}
-
-.row-buttons .btn {
-  text-transform: capitalize;
-}
 
 .container {
   margin: 10px auto;
@@ -275,53 +285,16 @@ export default {
   margin: 0 5px 5px 0;
   text-decoration: none;
   color: white;
+  @include transition;
 }
 
 .info-post--generos--genero:hover {
-  background-color: rgba(0,0,85,1);
+  background-color: rgba(255,255,255,.5)
 }
 
-.lista {
-  list-style: none;
-  display: flex;
-  flex-flow: column;
-  margin: 20px 0 0 0;
-}
-
-.episodio {
-  @include display-flex(center);
-  background-color: rgba(255,255,255,.1);
-  margin: 0 0 5px 0;
-  color: $color-white;
-  padding: 10px;
-}
-
-.episodio:hover {
-  color: white;
-}
-
-.episodio.active {
-  background-color: rgba(0,150,250,.2);
-}
-
-.episodio.disabled {
-  opacity: .5;
-}
-
-.episodio .fa {
-  width: 50px;
-  font-size: 30px;
-  flex-shrink: 0;
-}
-
-.episodio-info {
-  width: 100%;
-}
-
-.episodio-info h4 {
-  margin: 0;
-  font-size: 13px;
-  text-transform: uppercase;
+.container-player {
+  position: relative;
+  overflow: hidden;
 }
 
 </style>

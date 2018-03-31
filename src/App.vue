@@ -21,6 +21,7 @@ export default {
 </script>
 
 <style lang="scss">
+* {box-sizing: border-box;}
 #app {padding-top:40px}
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block;*display:inline;*zoom:1}

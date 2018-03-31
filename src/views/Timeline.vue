@@ -74,9 +74,9 @@ export default {
     top: 30px;
     background-color: $color-bg-body;
     z-index: 1;
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, .4);
-    margin: 0 -10px 20px -10px;
+    margin: 0 auto 20px auto;
     padding: 20px 0 5px 10px;
+    border-bottom: 1px solid white;
     text-transform: uppercase;
     color: #DADCDD;
   }
