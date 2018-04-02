@@ -24,6 +24,9 @@
       <router-link :to="{ name: 'Filtro', params: {chave: 'categoria', valor: 'filmes'} }">
         <i class="fa fa-ticket"></i> Filmes
       </router-link>
+      <router-link :to="{ name: 'Filtro', params: {chave: 'categoria', valor: 'hentais'} }">
+        <i class="fa fa-ticket"></i> Hentais (+18)
+      </router-link>
       <router-link :to="{ name: 'Listas' }">
         <i class="fa fa-heart"></i> Listas
       </router-link>
