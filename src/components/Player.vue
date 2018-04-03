@@ -39,7 +39,7 @@ export default {
     return {
       movedBar: false,
       playerOptions: {
-        height: '360',
+        height: '370',
         autoplay: false,
         muted: false,
         language: 'pt-BR',
