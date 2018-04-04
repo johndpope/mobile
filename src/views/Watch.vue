@@ -117,7 +117,7 @@ export default {
       post: {
         titulo: '',
         generos: '',
-        imagem: '//animesgo.net/img/animesgo-image.png'
+        imagem: '//animesgo.info/img/animesgo-image.png'
       },
       exibirInfoPost: false,
       exibirListaTemporadas: false,

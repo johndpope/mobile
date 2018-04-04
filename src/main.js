@@ -51,9 +51,9 @@ Vue.prototype.makeQueryString = function (s) {
 Vue.prototype.makeImageUrl = function (key, filename) {
   let urlImage = filename
   if (['post.capa', 'post.imagem', 'post.banner'].indexOf(key) > -1) {
-    urlImage = `//animesgo.net/upload/image/${filename}`
+    urlImage = `//animesgo.info/upload/image/${filename}`
   } else if (['user.avatar', 'user.imagem'].indexOf(key) > -1) {
-    urlImage = `//animesgo.net/upload/image/user/${filename}`
+    urlImage = `//animesgo.info/upload/image/user/${filename}`
   }
   return urlImage
 }

@@ -48,7 +48,7 @@ export default {
           type: 'video/mp4',
           src: ''
         }],
-        poster: '//animesgo.net/img/animesgo-image.png'
+        poster: '//animesgo.info/img/animesgo-image.png'
       }
     }
   },
