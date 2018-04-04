@@ -1,5 +1,5 @@
 * {box-sizing: border-box;}
-#app {padding-top:40px}
+#app {padding-top:40px;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block;*display:inline;*zoom:1}
 audio:not([controls]){display:none;height:0}
@@ -23,7 +23,7 @@ blockquote{margin:1em 40px}
 dfn{font-style:italic}
 mark{background:#ff0;color:#000}
 p,pre{margin:1em 0}
-code,kbd,pre,samp{font-family:monospace,serif;_font-family:'courier new',monospace;font-size:1em}
+code,kbd,pre,samp{font-family:monospace,serif;font-family:'courier new',monospace;font-size:1em}
 pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word}
 q{quotes:none}
 q:before,q:after{content:'';content:none}

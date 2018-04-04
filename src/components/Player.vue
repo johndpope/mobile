@@ -138,9 +138,8 @@ export default {
   padding: 10px;
   @include transition(1s ease-out opacity);
   display: flex;
-  align-items: center;
 
-  & > * {
+  & > .btn {
     margin-right: 10px;
   }
 }

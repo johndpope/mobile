@@ -4,6 +4,8 @@
     <div class="grid-default">
       <div class="container-player">
         <div class="bar">
+
+          <!-- botões -->
           <button class="btn info" @click="exibirModalDownload = true">
             <i class="fa fa-download"></i>
           </button>
@@ -13,52 +15,50 @@
           <router-link v-if="episodioAtual.nextEp" next-episode class="btn success" :to="{ path: `/watch/${slug}/${episodioAtual.nextEp.id}` }">
             <i class="fa fa-step-forward"></i>
           </router-link>
-          <div v-if="episodios.length">
-            <button @click="exibirListaEpisodios = !exibirListaEpisodios" class="btn success">
+          <button v-if="episodios.length" @click="exibirListaEpisodios = !exibirListaEpisodios" class="btn success">
               <i class="fa fa-list-ol"></i>
-            </button>
-            <transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
-              <nav v-if="exibirListaEpisodios" class="lista">
-                <router-link :class="{ 'active': ep == episodio.id }" class="lista--item" v-for="episodio in episodiosFiltrado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
-                  <div class="lista--item--info">
-                    <h4>{{ episodio.titulo }}</h4>
-                  </div>
-                </router-link>
-              </nav>
-            </transition>
-          </div>
-          <div v-if="temporadas.length">
-            <button class="btn success" @click="exibirListaTemporadas = !exibirListaTemporadas">
-              <i class="fa fa-angle-right"></i>
-              Temporada
-            </button>
-            <transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
-              <div class="lista" v-if="exibirListaTemporadas">
-                <div class="lista--item" v-for="temporada in temporadas" @click="definirTemporada(temporada)">
-                  <div class="lista--item--info">
-                    <h4>{{ temporada }}</h4>
-                  </div>
+          </button>
+          <button v-if="temporadas.length" class="btn success" @click="exibirListaTemporadas = !exibirListaTemporadas">
+            <i class="fa fa-angle-right"></i>
+            Temporada
+          </button>
+          <button v-if="idiomas.length" class="btn success" @click="exibirListaIdiomas = !exibirListaIdiomas">
+            <i class="fa fa-language"></i>
+            Idioma
+          </button>
+
+          <!-- tabs -->
+          <transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+            <nav v-if="exibirListaEpisodios" class="lista">
+              <router-link :class="{ 'active': ep == episodio.id }" class="lista--item" v-for="episodio in episodiosFiltrado" :to="{ path: `/watch/${slug}/${episodio.id}` }" :id="episodio.id" :key="episodio.id">
+                <div class="lista--item--info">
+                  <h4>{{ episodio.titulo }}</h4>
+                </div>
+              </router-link>
+            </nav>
+          </transition>
+          <transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+            <div class="lista" v-if="exibirListaTemporadas">
+              <div class="lista--item" v-for="temporada in temporadas" @click="definirTemporada(temporada)">
+                <div class="lista--item--info">
+                  <h4>{{ temporada }}</h4>
                 </div>
               </div>
-            </transition>
-          </div>
-          <div v-if="idiomas.length">
-            <button class="btn success" @click="exibirListaIdiomas = !exibirListaIdiomas">
-              <i class="fa fa-language"></i>
-              Idioma
-            </button>
-            <transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
-              <div class="lista" v-if="exibirListaIdiomas">
-                <div v-for="idioma in idiomas" @click="idiomaSelecionado = idioma" class="lista--item">
-                  <div class="lista--item--info">
-                    <h4>{{ idioma }}</h4>
-                  </div>
+            </div>
+          </transition>
+          <transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+            <div class="lista" v-if="exibirListaIdiomas">
+              <div v-for="idioma in idiomas" @click="idiomaSelecionado = idioma" class="lista--item">
+                <div class="lista--item--info">
+                  <h4>{{ idioma }}</h4>
                 </div>
               </div>
-            </transition>
-          </div>
+            </div>
+          </transition>
         </div><!-- .bar -->
+
         <Player ref="componentPlayer" :src="episodioAtual.url" :poster="post.imagem"></Player>
+
         <div class="info-post" :class="{'expanded': exibirInfoPost }" @click="exibirInfoPost = !exibirInfoPost">
           <h1>{{ post.titulo }}</h1>
           <h2 v-if="episodioAtual.url !== ''">
