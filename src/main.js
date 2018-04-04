@@ -27,7 +27,7 @@ Vue.use(VueHead)
 
 Vue.http.options.root = process.env.NODE_ENV === 'production'
   ? '//api.animesgo.net/'
-  : '//192.168.0.11:3000/'
+  : '//api.animesgo.net/'
 
 Vue.prototype.$flash = []
 Vue.prototype.moment = Moment
@@ -47,7 +47,6 @@ Vue.prototype.makeQueryString = function (s) {
   FIND.forEach((value, key) => {
     stringify = stringify.split(value).join(REPLACE[key])
   })
-  console.log(stringify)
   return stringify
 }
 
@@ -55,11 +54,13 @@ Vue.prototype.makeQueryString = function (s) {
 // NOTE: HACK: O INTERESSANTE SERIA ALTERNAR AS URL DOS STORAGE OU USAR UM CDN, SEI LÁ,
 //             UM CACHE SEI LÁ
 Vue.prototype.makeImageUrl = function (key, filename) {
+  let urlImage = filename
   if (['post.capa', 'post.imagem', 'post.banner'].indexOf(key) > -1) {
     urlImage = `//animesgo.info/upload/image/${filename}`
   } else if (['user.avatar', 'user.imagem'].indexOf(key) > -1) {
     urlImage = `//animesgo.info/upload/image/user/${filename}`
   }
+  return urlImage
 }
 // TODO: Use no template {{ var || filterName }}
 Vue.filter('slugify', function (value) {
