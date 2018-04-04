@@ -13,7 +13,6 @@ import router from './router'
 // CSS
 import 'font-awesome/css/font-awesome.css'
 import 'animate.css/animate.css'
-import '@/assets/css/reset.css'
 
 let sentry = Raven.config('https://6983beb5db044cb39ac2419e6faff729@sentry.io/263729').addPlugin(RavenVue, Vue)
 if (process.env.NODE_ENV === 'production') sentry.install()
@@ -83,6 +82,7 @@ router.beforeEach((to, from, next) => {
     // se não
     // next(false) ou redirect
   }
+  next()
 })
 
 /* eslint-disable no-new */
