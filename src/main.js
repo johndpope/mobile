@@ -13,7 +13,6 @@ import router from './router'
 // CSS
 import 'font-awesome/css/font-awesome.css'
 import 'animate.css/animate.css'
-import 'swiper/dist/css/swiper.css'
 
 let sentry = Raven.config('https://6983beb5db044cb39ac2419e6faff729@sentry.io/263729').addPlugin(RavenVue, Vue)
 if (process.env.NODE_ENV === 'production') sentry.install()
