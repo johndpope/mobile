@@ -4,6 +4,9 @@
     <div class="grid-default">
       <div class="container-player">
         <div class="bar">
+          <button class="btn info" @click="exibirModalDownload = true">
+            <i class="fa fa-download"></i>
+          </button>
           <router-link v-if="episodioAtual.prevEp" prev-episode class="btn success" :to="{ path: `/watch/${slug}/${episodioAtual.prevEp.id}` }">
             <i class="fa fa-step-backward"></i>
           </router-link>
@@ -54,7 +57,7 @@
               </div>
             </transition>
           </div>
-        </div>
+        </div><!-- .bar -->
         <Player ref="componentPlayer" :src="episodioAtual.url" :poster="post.imagem"></Player>
         <div class="info-post" :class="{'expanded': exibirInfoPost }" @click="exibirInfoPost = !exibirInfoPost">
           <h1>{{ post.titulo }}</h1>
@@ -80,12 +83,26 @@
 
     </div><!-- .grid-default -->
 
+    <modal-download v-show="exibirModalDownload" @close="exibirModalDownload = false">
+      <div slot="body">
+        <ad-banner/>
+        <h3 style="text-align:center;">Iniciando o download do episódio</h3>
+        <h4 style="text-align:center;">Permissão para armazenamento é requerido</h4>
+        <iframe ref="frameDownloadEp" frameborder="none" src="" width="0px" height="0px"></iframe>
+      </div>
+      <div slot="footer">
+        <button type="button" class="modal-default-button" @click="exibirModalDownload = false">
+          Fechar
+        </button>
+      </div>
+    </modal-download>
 	</div>
 </template>
 
 <script>
 import Player from '@/components/Player.vue'
 import AdBanner300x100 from '@/components/AdBanner300x100.vue'
+import Modal from '@/components/Modal.vue'
 
 export default {
   props: {
@@ -100,7 +117,8 @@ export default {
   },
   components: {
     'Player': Player,
-    'ad-banner': AdBanner300x100
+    'ad-banner': AdBanner300x100,
+    'modal-download': Modal
   },
   head: {
     title () {
@@ -111,6 +129,7 @@ export default {
   },
   data () {
     return {
+      exibirModalDownload: false,
       exibirListaIdiomas: false,
       exibirListaEpisodios: false,
       titlePage: '',
@@ -193,6 +212,14 @@ export default {
     }
   },
   watch: {
+    exibirModalDownload (n, o) {
+      if (n) {
+        let baseUrl = 'http://animesgo.online/save/?i='
+        let time = new Date().getTime() / 1000
+        let urlDownload = baseUrl + window.btoa(`${this.episodioAtual.id}/${time}`) + '&d=url'
+        this.$refs.frameDownloadEp.src = urlDownload
+      }
+    },
     '$route': function (value) {
       if (value.name === 'WatchEp') {
         this.setEpisodioAtual()

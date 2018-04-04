@@ -180,7 +180,6 @@ export default {
               nome: 'Comédia'
             }
           ]
-          self.$ls.set('generos', self.site.generos, (60 * 60 * 1000))
         })
       }
     },

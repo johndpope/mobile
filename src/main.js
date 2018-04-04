@@ -13,6 +13,7 @@ import router from './router'
 // CSS
 import 'font-awesome/css/font-awesome.css'
 import 'animate.css/animate.css'
+import '@/assets/css/reset.css'
 
 let sentry = Raven.config('https://6983beb5db044cb39ac2419e6faff729@sentry.io/263729').addPlugin(RavenVue, Vue)
 if (process.env.NODE_ENV === 'production') sentry.install()
@@ -37,6 +38,8 @@ Vue.prototype.checkPermissions = function (roles) {
   }
   return false
 }
+
+// TODO: Transforma um objeto em string (ex.: key=value&key2=value2)
 Vue.prototype.makeQueryString = function (s) {
   const FIND = ['"', ':', ',', '{', '}']
   const REPLACE = ['', '=', '&', '', '']
@@ -47,16 +50,18 @@ Vue.prototype.makeQueryString = function (s) {
   console.log(stringify)
   return stringify
 }
+
+// TODO: Monta a url das imagens (pasta + filename)
+// NOTE: HACK: O INTERESSANTE SERIA ALTERNAR AS URL DOS STORAGE OU USAR UM CDN, SEI LÁ,
+//             UM CACHE SEI LÁ
 Vue.prototype.makeImageUrl = function (key, filename) {
-  let urlImage = filename
   if (['post.capa', 'post.imagem', 'post.banner'].indexOf(key) > -1) {
     urlImage = `//animesgo.info/upload/image/${filename}`
   } else if (['user.avatar', 'user.imagem'].indexOf(key) > -1) {
     urlImage = `//animesgo.info/upload/image/user/${filename}`
   }
-  return urlImage
 }
-
+// TODO: Use no template {{ var || filterName }}
 Vue.filter('slugify', function (value) {
   var slug = ''
   var strLower = value.toLowerCase()
@@ -68,6 +73,15 @@ Vue.filter('slugify', function (value) {
   slug = slug.replace(/\s*$/g, '')
   slug = slug.replace(/\s+/g, '-')
   return slug
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.params.valor === 'hentais') {
+    // se + 18
+    // next()
+    // se não
+    // next(false) ou redirect
+  }
 })
 
 /* eslint-disable no-new */
